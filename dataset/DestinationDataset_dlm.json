@@ -1,0 +1,15 @@
+{
+	"name": "DestinationDataset_dlm",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FormattedEquipmentLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "FormattedEquipment2"
+		}
+	}
+}
