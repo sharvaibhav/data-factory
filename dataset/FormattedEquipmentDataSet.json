@@ -8,6 +8,9 @@
 		},
 		"annotations": [],
 		"type": "AzureTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"tableName": "FormattedEquipmentTable"
+		}
 	}
 }
