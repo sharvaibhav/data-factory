@@ -1,5 +1,5 @@
 {
-	"name": "CopyPipeline_dlm",
+	"name": "copy_to_table_storage",
 	"properties": {
 		"description": "copy from one table to another table",
 		"activities": [
