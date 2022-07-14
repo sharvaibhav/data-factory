@@ -1,5 +1,5 @@
 {
-	"name": "CopyPipeline_oty",
+	"name": "Transfer_to_mysql",
 	"properties": {
 		"activities": [
 			{
