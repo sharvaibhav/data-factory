@@ -1,0 +1,9 @@
+{
+	"name": "vaibhav-rg-df",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0953bf73-bbaa-4551-8c8c-456e7d9008cf",
+		"tenantId": "05c09cca-3fe5-4786-93a6-f0cc31e7ec0b"
+	}
+}
