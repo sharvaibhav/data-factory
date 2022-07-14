@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "vaibhav-rg-df"
 		},
+		"AzureMySql1_connectionString": {
+			"value": ""
+		},
 		"AzureTableStorage1_connectionString": {
 			"value": ""
 		},
