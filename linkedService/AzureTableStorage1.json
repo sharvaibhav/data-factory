@@ -1,0 +1,13 @@
+{
+	"name": "AzureTableStorage1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "equipments storage in table",
+		"annotations": [],
+		"type": "AzureTableStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=vaibhavadfstorage;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDlERDg1N0E0LTgyQkUtNDgxMy1BN0M0LUY3RjM0NkYwOUE2MF9mZGQ4MDk4Ny03N2YyLTQ2MDMtYTRmYi0wNzI5MTA3NWRkNDQiDQp9"
+		}
+	}
+}
