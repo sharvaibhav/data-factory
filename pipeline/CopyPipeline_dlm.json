@@ -1,0 +1,230 @@
+{
+	"name": "CopyPipeline_dlm",
+	"properties": {
+		"description": "copy from one table to another table",
+		"activities": [
+			{
+				"name": "Copy_dlm",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "equipments"
+					},
+					{
+						"name": "Destination",
+						"value": "FormattedEquipment2"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureTableSource",
+						"azureTableSourceIgnoreTableNotFound": false
+					},
+					"sink": {
+						"type": "AzureTableSink",
+						"azureTableInsertType": "merge",
+						"azureTableDefaultPartitionKeyValue": "equipment",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "loggingservice",
+								"type": "LinkedServiceReference"
+							}
+						}
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "PartitionKey",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PartitionKey",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "RowKey",
+									"type": "String"
+								},
+								"sink": {
+									"name": "RowKey",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Timestamp",
+									"type": "DateTimeOffset"
+								},
+								"sink": {
+									"name": "Timestamp",
+									"type": "DateTimeOffset"
+								}
+							},
+							{
+								"source": {
+									"name": "area",
+									"type": "String"
+								},
+								"sink": {
+									"name": "area",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "attributes",
+									"type": "String"
+								},
+								"sink": {
+									"name": "attributes",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "description",
+									"type": "String"
+								},
+								"sink": {
+									"name": "description",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "discipline",
+									"type": "String"
+								},
+								"sink": {
+									"name": "discipline",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "facility",
+									"type": "String"
+								},
+								"sink": {
+									"name": "facility",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "id",
+									"type": "String"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "processLine",
+									"type": "String"
+								},
+								"sink": {
+									"name": "processLine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "procurementPackage",
+									"type": "String"
+								},
+								"sink": {
+									"name": "procurementPackage",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "system",
+									"type": "String"
+								},
+								"sink": {
+									"name": "system",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tagNumber",
+									"type": "String"
+								},
+								"sink": {
+									"name": "tagNumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "topTag",
+									"type": "String"
+								},
+								"sink": {
+									"name": "topTag",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "type",
+									"type": "String"
+								},
+								"sink": {
+									"name": "type",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_dlm",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_dlm",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

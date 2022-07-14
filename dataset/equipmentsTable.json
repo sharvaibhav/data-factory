@@ -1,0 +1,16 @@
+{
+	"name": "equipmentsTable",
+	"properties": {
+		"description": "This is connected to table storage of equipments",
+		"linkedServiceName": {
+			"referenceName": "AzureTableStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "equipments"
+		}
+	}
+}
