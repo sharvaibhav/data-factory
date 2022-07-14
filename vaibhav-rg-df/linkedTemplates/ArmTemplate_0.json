@@ -1,0 +1,394 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "vaibhav-rg-df"
+		},
+		"AzureTableStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
+		},
+		"FormattedEquipmentLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'FormattedEquipmentLinkedService'"
+		},
+		"loggingservice_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureTableStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "equipments storage in table",
+				"annotations": [],
+				"type": "AzureTableStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureTableStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FormattedEquipmentLinkedService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is the possible output Formatted Equipment",
+				"annotations": [],
+				"type": "AzureTableStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('FormattedEquipmentLinkedService_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/loggingservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('loggingservice_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_dlm')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "FormattedEquipmentLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "FormattedEquipment2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/FormattedEquipmentLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FormattedEquipmentDataSet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is the possible formatted data set",
+				"linkedServiceName": {
+					"referenceName": "FormattedEquipmentLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "FormattedEquipmentTable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/FormattedEquipmentLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_dlm')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureTableStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "equipments"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureTableStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/equipmentsTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This is connected to table storage of equipments",
+				"linkedServiceName": {
+					"referenceName": "AzureTableStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "equipments"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureTableStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyPipeline_dlm')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "copy from one table to another table",
+				"activities": [
+					{
+						"name": "Copy_dlm",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "equipments"
+							},
+							{
+								"name": "Destination",
+								"value": "FormattedEquipment2"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "AzureTableSource",
+								"azureTableSourceIgnoreTableNotFound": false
+							},
+							"sink": {
+								"type": "AzureTableSink",
+								"azureTableInsertType": "merge",
+								"azureTableDefaultPartitionKeyValue": "equipment",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "loggingservice",
+										"type": "LinkedServiceReference"
+									}
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "PartitionKey",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PartitionKey",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RowKey",
+											"type": "String"
+										},
+										"sink": {
+											"name": "RowKey",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Timestamp",
+											"type": "DateTimeOffset"
+										},
+										"sink": {
+											"name": "Timestamp",
+											"type": "DateTimeOffset"
+										}
+									},
+									{
+										"source": {
+											"name": "area",
+											"type": "String"
+										},
+										"sink": {
+											"name": "area",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "attributes",
+											"type": "String"
+										},
+										"sink": {
+											"name": "attributes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "description",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "discipline",
+											"type": "String"
+										},
+										"sink": {
+											"name": "discipline",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "facility",
+											"type": "String"
+										},
+										"sink": {
+											"name": "facility",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "id",
+											"type": "String"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "processLine",
+											"type": "String"
+										},
+										"sink": {
+											"name": "processLine",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "procurementPackage",
+											"type": "String"
+										},
+										"sink": {
+											"name": "procurementPackage",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "system",
+											"type": "String"
+										},
+										"sink": {
+											"name": "system",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tagNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tagNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "topTag",
+											"type": "String"
+										},
+										"sink": {
+											"name": "topTag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "type",
+											"type": "String"
+										},
+										"sink": {
+											"name": "type",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_dlm",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_dlm",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_dlm')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_dlm')]",
+				"[concat(variables('factoryId'), '/linkedServices/loggingservice')]"
+			]
+		}
+	]
+}
