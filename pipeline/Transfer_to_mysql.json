@@ -442,7 +442,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_oty",
+						"referenceName": "TableSystem",
 						"type": "DatasetReference"
 					}
 				],
