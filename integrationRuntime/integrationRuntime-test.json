@@ -1,0 +1,18 @@
+{
+	"name": "integrationRuntime-test",
+	"properties": {
+		"type": "Managed",
+		"description": "testing it out",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "West Europe",
+				"dataFlowProperties": {
+					"computeType": "General",
+					"coreCount": 8,
+					"timeToLive": 10,
+					"cleanup": false
+				}
+			}
+		}
+	}
+}
