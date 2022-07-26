@@ -20,7 +20,7 @@
 				"          RowKey as string,",
 				"          Timestamp as string,",
 				"          area as string,",
-				"          attributes as (),",
+				"          attributes as string,",
 				"          description as string,",
 				"          discipline as string,",
 				"          facility as string,",
