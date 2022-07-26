@@ -20,7 +20,7 @@
 				"          RowKey as string,",
 				"          Timestamp as string,",
 				"          area as string,",
-				"          attributes as any,",
+				"          attributes as (),",
 				"          description as string,",
 				"          discipline as string,",
 				"          facility as string,",
@@ -34,6 +34,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> mysqlEquipment"
 			]
