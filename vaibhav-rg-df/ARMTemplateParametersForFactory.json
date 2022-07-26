@@ -16,6 +16,9 @@
 		},
 		"loggingservice_connectionString": {
 			"value": ""
+		},
+		"AzureMySql2_connectionString": {
+			"value": ""
 		}
 	}
 }
