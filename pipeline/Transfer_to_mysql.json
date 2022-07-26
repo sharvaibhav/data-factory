@@ -29,9 +29,9 @@
 						"azureTableSourceIgnoreTableNotFound": false
 					},
 					"sink": {
-						"type": "AzureMySqlSink",
-						"writeBatchSize": 10000,
-						"writeBatchTimeout": "00:00:30"
+						"type": "AzureTableSink",
+						"azureTableInsertType": "merge",
+						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
 					"validateDataConsistency": false,
@@ -219,7 +219,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_oty",
+						"referenceName": "DestinationDataset_dlm",
 						"type": "DatasetReference"
 					}
 				]
