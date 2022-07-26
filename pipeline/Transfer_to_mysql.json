@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_oty",
+				"name": "COPY_EQUIPMENT",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -225,11 +225,11 @@
 				]
 			},
 			{
-				"name": "Copy_oty_copy1",
+				"name": "COPY_SYSTEM",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy_oty",
+						"activity": "COPY_EQUIPMENT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
