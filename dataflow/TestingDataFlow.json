@@ -10,6 +10,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "mysqlEquipment"
+				},
+				{
+					"name": "source1"
 				}
 			],
 			"sinks": [],
@@ -36,7 +39,9 @@
 				"     validateSchema: false,",
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> mysqlEquipment"
+				"     format: 'table') ~> mysqlEquipment",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1"
 			]
 		}
 	}
