@@ -14,7 +14,11 @@
 			],
 			"sinks": [
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "MySqlEquipmentSink",
+						"type": "DatasetReference"
+					},
+					"name": "mysqlEquipmenrSink"
 				}
 			],
 			"transformations": [],
@@ -43,8 +47,30 @@
 				"     format: 'table') ~> mysqlEquipment",
 				"mysqlEquipment sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          PartitionKey as string,",
+				"          RowKey as string,",
+				"          type as string,",
+				"          tagNumber as string,",
+				"          description as string,",
+				"          relations as string,",
+				"          facility as string,",
+				"          area as string,",
+				"          system as string,",
+				"          discipline as string,",
+				"          procurementPackage as string,",
+				"          processLine as string,",
+				"          id as string,",
+				"          topTag as string,",
+				"          attributes as any",
+				"     ),",
+				"     deletable:true,",
+				"     insertable:true,",
+				"     updateable:true,",
+				"     upsertable:true,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> mysqlEquipmenrSink"
 			]
 		}
 	}
