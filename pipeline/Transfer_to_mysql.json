@@ -245,11 +245,11 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "equipments"
+						"value": "system"
 					},
 					{
 						"name": "Destination",
-						"value": "equipment"
+						"value": "system"
 					}
 				],
 				"typeProperties": {
@@ -291,55 +291,33 @@
 							},
 							{
 								"source": {
-									"name": "Timestamp",
-									"type": "DateTimeOffset"
+									"name": "ext_id",
+									"type": "String"
 								},
 								"sink": {
-									"name": "Timestamp",
+									"name": "ext_id",
 									"type": "String",
 									"physicalType": "varchar"
 								}
 							},
 							{
 								"source": {
-									"name": "area",
+									"name": "fullName",
 									"type": "String"
 								},
 								"sink": {
-									"name": "area",
+									"name": "fullName",
 									"type": "String",
 									"physicalType": "varchar"
 								}
 							},
 							{
 								"source": {
-									"name": "attributes",
+									"name": "name",
 									"type": "String"
 								},
 								"sink": {
-									"name": "attributes",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "description",
-									"type": "String"
-								},
-								"sink": {
-									"name": "description",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "discipline",
-									"type": "String"
-								},
-								"sink": {
-									"name": "discipline",
+									"name": "name",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -357,77 +335,22 @@
 							},
 							{
 								"source": {
+									"name": "description",
+									"type": "String"
+								},
+								"sink": {
+									"name": "description",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
 									"name": "id",
 									"type": "String"
 								},
 								"sink": {
 									"name": "id",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "processLine",
-									"type": "String"
-								},
-								"sink": {
-									"name": "processLine",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "procurementPackage",
-									"type": "String"
-								},
-								"sink": {
-									"name": "procurementPackage",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "system",
-									"type": "String"
-								},
-								"sink": {
-									"name": "system",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "tagNumber",
-									"type": "String"
-								},
-								"sink": {
-									"name": "tagNumber",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "topTag",
-									"type": "String"
-								},
-								"sink": {
-									"name": "topTag",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "type",
-									"type": "String"
-								},
-								"sink": {
-									"name": "type",
 									"type": "String",
 									"physicalType": "varchar"
 								}
