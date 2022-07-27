@@ -12,15 +12,7 @@
 					"name": "mysqlEquipment"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "MySqlEquipmentSink",
-						"type": "DatasetReference"
-					},
-					"name": "testsink"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
 					"name": "attributederivation"
@@ -52,51 +44,7 @@
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> mysqlEquipment",
-				"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation",
-				"attributederivation sink(allowSchemaDrift: false,",
-				"     validateSchema: false,",
-				"     input(",
-				"          PartitionKey as string,",
-				"          RowKey as string,",
-				"          Timestamp as string,",
-				"          type as string,",
-				"          tagNumber as string,",
-				"          description as string,",
-				"          relations as string,",
-				"          facility as string,",
-				"          area as string,",
-				"          system as string,",
-				"          discipline as string,",
-				"          procurementPackage as string,",
-				"          processLine as string,",
-				"          id as string,",
-				"          topTag as string,",
-				"          attributes as any",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
-				"     saveOrder: 1,",
-				"     mapColumn(",
-				"          PartitionKey,",
-				"          RowKey,",
-				"          Timestamp,",
-				"          type,",
-				"          tagNumber,",
-				"          description,",
-				"          relations,",
-				"          facility,",
-				"          area,",
-				"          system,",
-				"          discipline,",
-				"          procurementPackage,",
-				"          processLine,",
-				"          id,",
-				"          topTag,",
-				"          attributes",
-				"     )) ~> testsink"
+				"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation"
 			]
 		}
 	}
