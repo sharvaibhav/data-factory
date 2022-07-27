@@ -21,11 +21,7 @@
 					"name": "mysqlEquipmenrSink"
 				}
 			],
-			"transformations": [
-				{
-					"name": "streamOne"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          PartitionKey as string,",
@@ -50,10 +46,7 @@
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> mysqlEquipment",
-				"mysqlEquipment alterRow(updateIf(id==\"Johan Castberg_JC_A3RZ75325T\"),",
-				"     deleteIf(id==\"Johan Castberg_JC_A3RZ7YU3UD\"),",
-				"     upsertIf(id==\"Johan Castberg_JC_A3RZ7SYVUD\")) ~> streamOne",
-				"streamOne sink(allowSchemaDrift: true,",
+				"mysqlEquipment sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     input(",
 				"          PartitionKey as string,",
@@ -73,20 +66,13 @@
 				"          topTag as string,",
 				"          attributes as any",
 				"     ),",
-				"     deletable:true,",
-				"     insertable:true,",
-				"     updateable:true,",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
 				"     upsertable:true,",
 				"     keys:['PartitionKey','id'],",
 				"     skipKeyWrites:true,",
-				"     format: 'table',",
-				"     mapColumn(",
-				"          PartitionKey,",
-				"          RowKey,",
-				"          type,",
-				"          tagNumber,",
-				"          id",
-				"     )) ~> mysqlEquipmenrSink"
+				"     format: 'table') ~> mysqlEquipmenrSink"
 			]
 		}
 	}
