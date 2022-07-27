@@ -35,7 +35,7 @@
 				"          processLine as string,",
 				"          id as string,",
 				"          topTag as string,",
-				"          attributes as string",
+				"          attributes as any",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
