@@ -53,7 +53,7 @@
 				"     deleteIf(id==\"Johan Castberg_JC_A3RZ7YU3UD\"),",
 				"     upsertIf(id==\"Johan Castberg_JC_A3RZ7SYVUD\")) ~> streamOne",
 				"streamOne sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     input(",
 				"          PartitionKey as string,",
 				"          RowKey as string,",
@@ -94,8 +94,7 @@
 				"          procurementPackage,",
 				"          processLine,",
 				"          id,",
-				"          topTag,",
-				"          attributes",
+				"          topTag",
 				"     )) ~> mysqlEquipmenrSink"
 			]
 		}
