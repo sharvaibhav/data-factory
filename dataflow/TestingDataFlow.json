@@ -84,7 +84,8 @@
 				"          PartitionKey,",
 				"          RowKey,",
 				"          type,",
-				"          tagNumber",
+				"          tagNumber,",
+				"          id",
 				"     )) ~> mysqlEquipmenrSink"
 			]
 		}
