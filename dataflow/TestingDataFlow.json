@@ -67,11 +67,9 @@
 				"          attributes as any",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:false,",
+				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['PartitionKey','id'],",
-				"     skipKeyWrites:true,",
+				"     upsertable:false,",
 				"     format: 'table') ~> mysqlEquipmenrSink"
 			]
 		}
