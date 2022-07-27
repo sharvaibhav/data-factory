@@ -1526,12 +1526,12 @@
 								"referenceName": "MySqlEquipmentSink",
 								"type": "DatasetReference"
 							},
-							"name": "mysqlEquipmenrSink"
+							"name": "testsink"
 						}
 					],
 					"transformations": [
 						{
-							"name": "streamOne"
+							"name": "attributederivation"
 						}
 					],
 					"scriptLines": [
@@ -1539,29 +1539,30 @@
 						"          PartitionKey as string,",
 						"          RowKey as string,",
 						"          Timestamp as string,",
-						"          area as string,",
-						"          attributes as string,",
-						"          description as string,",
-						"          discipline as string,",
-						"          facility as string,",
-						"          id as string,",
-						"          processLine as string,",
-						"          procurementPackage as string,",
-						"          system as string,",
+						"          type as string,",
 						"          tagNumber as string,",
+						"          description as string,",
+						"          relations as string,",
+						"          facility as string,",
+						"          area as string,",
+						"          system as string,",
+						"          discipline as string,",
+						"          procurementPackage as string,",
+						"          processLine as string,",
+						"          id as string,",
 						"          topTag as string,",
-						"          type as string",
+						"          attributes as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     inferDriftedColumnTypes: true,",
+						"     limit: 10,",
 						"     batchSize: 3,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> mysqlEquipment",
-						"mysqlEquipment alterRow(updateIf(id==\"Johan Castberg_JC_A3RZ75325T\"),",
-						"     deleteIf(id==\"Johan Castberg_JC_A3RZ7YU3UD\"),",
-						"     upsertIf(id==\"Johan Castberg_JC_A3RZ7SYVUD\")) ~> streamOne",
-						"streamOne sink(allowSchemaDrift: true,",
-						"     validateSchema: true,",
+						"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation",
+						"attributederivation sink(allowSchemaDrift: false,",
+						"     validateSchema: false,",
 						"     input(",
 						"          PartitionKey as string,",
 						"          RowKey as string,",
@@ -1580,21 +1581,20 @@
 						"          topTag as string,",
 						"          attributes as any",
 						"     ),",
-						"     deletable:true,",
+						"     deletable:false,",
 						"     insertable:true,",
-						"     updateable:true,",
-						"     upsertable:true,",
-						"     keys:['PartitionKey','id'],",
-						"     skipKeyWrites:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
 						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 1,",
 						"     mapColumn(",
 						"          PartitionKey,",
 						"          RowKey,",
+						"          Timestamp,",
 						"          type,",
 						"          tagNumber,",
 						"          description,",
+						"          relations,",
 						"          facility,",
 						"          area,",
 						"          system,",
@@ -1602,8 +1602,9 @@
 						"          procurementPackage,",
 						"          processLine,",
 						"          id,",
-						"          topTag",
-						"     )) ~> mysqlEquipmenrSink"
+						"          topTag,",
+						"          attributes",
+						"     )) ~> testsink"
 					]
 				}
 			},
@@ -1637,7 +1638,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"mysqlEquipment": {},
-									"mysqlEquipmenrSink": {}
+									"testsink": {}
 								},
 								"linkedServiceParameters": {}
 							},
