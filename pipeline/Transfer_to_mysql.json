@@ -233,6 +233,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "COPY_AREA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -391,11 +397,11 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "equipments"
+						"value": "area"
 					},
 					{
 						"name": "Destination",
-						"value": "equipment"
+						"value": "area"
 					}
 				],
 				"typeProperties": {
