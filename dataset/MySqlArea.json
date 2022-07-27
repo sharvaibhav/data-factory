@@ -21,6 +21,12 @@
 				"scale": 0
 			},
 			{
+				"name": "Timestamp",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
 				"name": "type",
 				"type": "varchar",
 				"precision": 0,
