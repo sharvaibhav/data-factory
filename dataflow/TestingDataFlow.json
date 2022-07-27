@@ -71,7 +71,23 @@
 				"     keys:['PartitionKey'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> mysqlEquipmenrSink"
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          PartitionKey,",
+				"          RowKey,",
+				"          type,",
+				"          tagNumber,",
+				"          description,",
+				"          facility,",
+				"          area,",
+				"          system,",
+				"          discipline,",
+				"          procurementPackage,",
+				"          processLine,",
+				"          id,",
+				"          topTag,",
+				"          attributes",
+				"     )) ~> mysqlEquipmenrSink"
 			]
 		}
 	}
