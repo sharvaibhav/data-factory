@@ -12,7 +12,11 @@
 					"name": "mysqlEquipment"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
@@ -36,7 +40,11 @@
 				"     validateSchema: false,",
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> mysqlEquipment"
+				"     format: 'table') ~> mysqlEquipment",
+				"mysqlEquipment sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
