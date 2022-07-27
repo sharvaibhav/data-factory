@@ -1155,6 +1155,12 @@
 						"scale": 0
 					},
 					{
+						"name": "Timestamp",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
 						"name": "type",
 						"type": "varchar",
 						"precision": 0,
@@ -1555,10 +1561,11 @@
 						"     deleteIf(id==\"Johan Castberg_JC_A3RZ7YU3UD\"),",
 						"     upsertIf(id==\"Johan Castberg_JC_A3RZ7SYVUD\")) ~> streamOne",
 						"streamOne sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
+						"     validateSchema: true,",
 						"     input(",
 						"          PartitionKey as string,",
 						"          RowKey as string,",
+						"          Timestamp as string,",
 						"          type as string,",
 						"          tagNumber as string,",
 						"          description as string,",
@@ -1595,8 +1602,7 @@
 						"          procurementPackage,",
 						"          processLine,",
 						"          id,",
-						"          topTag,",
-						"          attributes",
+						"          topTag",
 						"     )) ~> mysqlEquipmenrSink"
 					]
 				}
@@ -1604,6 +1610,54 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/MYSQLEquipment')]",
 				"[concat(variables('factoryId'), '/datasets/MySqlEquipmentSink')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "TestingDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"mysqlEquipment": {},
+									"mysqlEquipmenrSink": {}
+								},
+								"linkedServiceParameters": {}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/TestingDataFlow')]"
 			]
 		}
 	]

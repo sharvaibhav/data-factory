@@ -381,6 +381,12 @@
 						"scale": 0
 					},
 					{
+						"name": "Timestamp",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
 						"name": "type",
 						"type": "varchar",
 						"precision": 0,
@@ -1555,10 +1561,11 @@
 						"     deleteIf(id==\"Johan Castberg_JC_A3RZ7YU3UD\"),",
 						"     upsertIf(id==\"Johan Castberg_JC_A3RZ7SYVUD\")) ~> streamOne",
 						"streamOne sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
+						"     validateSchema: true,",
 						"     input(",
 						"          PartitionKey as string,",
 						"          RowKey as string,",
+						"          Timestamp as string,",
 						"          type as string,",
 						"          tagNumber as string,",
 						"          description as string,",
@@ -1595,8 +1602,7 @@
 						"          procurementPackage,",
 						"          processLine,",
 						"          id,",
-						"          topTag,",
-						"          attributes",
+						"          topTag",
 						"     )) ~> mysqlEquipmenrSink"
 					]
 				}
