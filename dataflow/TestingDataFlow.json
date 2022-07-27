@@ -79,24 +79,7 @@
 				"     upsertable:true,",
 				"     keys:['PartitionKey','id'],",
 				"     skipKeyWrites:true,",
-				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     mapColumn(",
-				"          PartitionKey,",
-				"          RowKey,",
-				"          type,",
-				"          tagNumber,",
-				"          description,",
-				"          facility,",
-				"          area,",
-				"          system,",
-				"          discipline,",
-				"          procurementPackage,",
-				"          processLine,",
-				"          id,",
-				"          topTag",
-				"     )) ~> mysqlEquipmenrSink"
+				"     format: 'table') ~> mysqlEquipmenrSink"
 			]
 		}
 	}
