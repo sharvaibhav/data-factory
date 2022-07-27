@@ -12,15 +12,7 @@
 					"name": "mysqlEquipment"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "MySqlEquipmentSink",
-						"type": "DatasetReference"
-					},
-					"name": "mysqlEquipmenrSink"
-				}
-			],
+			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
@@ -43,34 +35,11 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     limit: 10,",
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> mysqlEquipment",
-				"mysqlEquipment sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
-				"     input(",
-				"          PartitionKey as string,",
-				"          RowKey as string,",
-				"          Timestamp as string,",
-				"          type as string,",
-				"          tagNumber as string,",
-				"          description as string,",
-				"          relations as string,",
-				"          facility as string,",
-				"          area as string,",
-				"          system as string,",
-				"          discipline as string,",
-				"          procurementPackage as string,",
-				"          processLine as string,",
-				"          id as string,",
-				"          topTag as string,",
-				"          attributes as any",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table') ~> mysqlEquipmenrSink"
+				"     format: 'table') ~> mysqlEquipment"
 			]
 		}
 	}
