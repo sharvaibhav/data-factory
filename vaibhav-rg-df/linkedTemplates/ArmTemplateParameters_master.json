@@ -8,6 +8,9 @@
 		"AzureMySql1_connectionString": {
 			"value": ""
 		},
+		"AzureMySql2_connectionString": {
+			"value": ""
+		},
 		"AzureTableStorage1_connectionString": {
 			"value": ""
 		},
@@ -15,9 +18,6 @@
 			"value": ""
 		},
 		"loggingservice_connectionString": {
-			"value": ""
-		},
-		"AzureMySql2_connectionString": {
 			"value": ""
 		},
 		"containerUri": {

@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureMySql1'"
 		},
+		"AzureMySql2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureMySql2'"
+		},
 		"AzureTableStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
@@ -22,10 +26,6 @@
 		"loggingservice_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
-		},
-		"AzureMySql2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureMySql2'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -57,6 +57,9 @@
 					"AzureMySql1_connectionString": {
 						"value": "[parameters('AzureMySql1_connectionString')]"
 					},
+					"AzureMySql2_connectionString": {
+						"value": "[parameters('AzureMySql2_connectionString')]"
+					},
 					"AzureTableStorage1_connectionString": {
 						"value": "[parameters('AzureTableStorage1_connectionString')]"
 					},
@@ -65,9 +68,6 @@
 					},
 					"loggingservice_connectionString": {
 						"value": "[parameters('loggingservice_connectionString')]"
-					},
-					"AzureMySql2_connectionString": {
-						"value": "[parameters('AzureMySql2_connectionString')]"
 					}
 				}
 			},
