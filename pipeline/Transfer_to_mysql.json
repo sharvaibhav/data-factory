@@ -448,7 +448,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "MYSQLEquipment",
+						"referenceName": "MySqlSystem",
 						"type": "DatasetReference"
 					}
 				]
