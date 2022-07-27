@@ -21,7 +21,11 @@
 					"name": "testsink"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "attributederivation"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          PartitionKey as string,",
@@ -48,7 +52,8 @@
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> mysqlEquipment",
-				"mysqlEquipment sink(allowSchemaDrift: false,",
+				"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation",
+				"attributederivation sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     input(",
 				"          PartitionKey as string,",
