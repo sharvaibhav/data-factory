@@ -73,9 +73,24 @@
 				"     updateable:false,",
 				"     upsertable:false,",
 				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> testsink"
+				"     saveOrder: 1,",
+				"     mapColumn(",
+				"          PartitionKey,",
+				"          RowKey,",
+				"          Timestamp,",
+				"          type,",
+				"          tagNumber,",
+				"          description,",
+				"          relations,",
+				"          facility,",
+				"          area,",
+				"          system,",
+				"          discipline,",
+				"          procurementPackage,",
+				"          processLine,",
+				"          id,",
+				"          topTag",
+				"     )) ~> testsink"
 			]
 		}
 	}
