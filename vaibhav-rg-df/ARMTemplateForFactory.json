@@ -271,6 +271,12 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "COPY_AREA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"policy": {
@@ -415,6 +421,198 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "COPY_AREA",
+						"description": "Copying area from table storage to mysql database",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "area"
+							},
+							{
+								"name": "Destination",
+								"value": "area"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "AzureTableSource",
+								"azureTableSourceIgnoreTableNotFound": false
+							},
+							"sink": {
+								"type": "AzureMySqlSink",
+								"writeBatchSize": 10000,
+								"writeBatchTimeout": "00:00:30"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "PartitionKey",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PartitionKey",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RowKey",
+											"type": "String"
+										},
+										"sink": {
+											"name": "RowKey",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Timestamp",
+											"type": "DateTimeOffset"
+										},
+										"sink": {
+											"name": "Timestamp",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ext_id",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ext_id",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "areaCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "areaCode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "systemFullName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "systemFullName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "locationType",
+											"type": "String"
+										},
+										"sink": {
+											"name": "locationType",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "fabricationContractor",
+											"type": "String"
+										},
+										"sink": {
+											"name": "fabricationContractor",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "project",
+											"type": "String"
+										},
+										"sink": {
+											"name": "project",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "facility",
+											"type": "String"
+										},
+										"sink": {
+											"name": "facility",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "id",
+											"type": "String"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TableArea",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "MySqlArea",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -427,7 +625,9 @@
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_oty')]",
 				"[concat(variables('factoryId'), '/datasets/MYSQLEquipment')]",
 				"[concat(variables('factoryId'), '/datasets/TableSystem')]",
-				"[concat(variables('factoryId'), '/datasets/MySqlSystem')]"
+				"[concat(variables('factoryId'), '/datasets/MySqlSystem')]",
+				"[concat(variables('factoryId'), '/datasets/TableArea')]",
+				"[concat(variables('factoryId'), '/datasets/MySqlArea')]"
 			]
 		},
 		{
@@ -850,6 +1050,12 @@
 						"scale": 0
 					},
 					{
+						"name": "Timestamp",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
 						"name": "type",
 						"type": "varchar",
 						"precision": 0,
@@ -918,6 +1124,117 @@
 				],
 				"typeProperties": {
 					"tableName": "area"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureMySql2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MySqlEquipmentSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureMySql2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "PartitionKey",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "RowKey",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "type",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "tagNumber",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "relations",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "facility",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "area",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "system",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "discipline",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "procurementPackage",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "processLine",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "topTag",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "attributes",
+						"type": "json",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "equipmentsink"
 				}
 			},
 			"dependsOn": [
@@ -1234,7 +1551,7 @@
 						"     batchSize: 3,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> mysqlEquipment",
-						"mysqlEquipment alterRow(updateIf(id==\"Johan Castberg_JC_A3RZ75325T\" ),",
+						"mysqlEquipment alterRow(updateIf(id==\"Johan Castberg_JC_A3RZ75325T\"),",
 						"     deleteIf(id==\"Johan Castberg_JC_A3RZ7YU3UD\"),",
 						"     upsertIf(id==\"Johan Castberg_JC_A3RZ7SYVUD\")) ~> streamOne",
 						"streamOne sink(allowSchemaDrift: true,",
@@ -1287,117 +1604,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/MYSQLEquipment')]",
 				"[concat(variables('factoryId'), '/datasets/MySqlEquipmentSink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MySqlEquipmentSink')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureMySql2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureMySqlTable",
-				"schema": [
-					{
-						"name": "PartitionKey",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "RowKey",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "type",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "tagNumber",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "description",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "relations",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "facility",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "area",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "system",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "discipline",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "procurementPackage",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "processLine",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "id",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "topTag",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "attributes",
-						"type": "json",
-						"precision": 0,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"tableName": "equipmentsink"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureMySql2')]"
 			]
 		}
 	]
