@@ -79,7 +79,13 @@
 				"     upsertable:true,",
 				"     keys:['PartitionKey','id'],",
 				"     skipKeyWrites:true,",
-				"     format: 'table') ~> mysqlEquipmenrSink"
+				"     format: 'table',",
+				"     mapColumn(",
+				"          PartitionKey,",
+				"          RowKey,",
+				"          type,",
+				"          tagNumber",
+				"     )) ~> mysqlEquipmenrSink"
 			]
 		}
 	}
