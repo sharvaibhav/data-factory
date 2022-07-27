@@ -94,7 +94,8 @@
 				"          procurementPackage,",
 				"          processLine,",
 				"          id,",
-				"          topTag",
+				"          topTag,",
+				"          attributes",
 				"     )) ~> testsink"
 			]
 		}
