@@ -90,8 +90,7 @@
 				"          procurementPackage,",
 				"          processLine,",
 				"          id,",
-				"          topTag,",
-				"          attributes",
+				"          topTag",
 				"     )) ~> sink1"
 			]
 		}
