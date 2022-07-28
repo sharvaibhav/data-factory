@@ -27,55 +27,7 @@
 				"scale": 0
 			},
 			{
-				"name": "area",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "attributes",
-				"type": "json",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "description",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "discipline",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "facility",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "id",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "processLine",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "procurementPackage",
-				"type": "varchar",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "system",
+				"name": "type",
 				"type": "varchar",
 				"precision": 0,
 				"scale": 0
@@ -87,14 +39,68 @@
 				"scale": 0
 			},
 			{
+				"name": "description",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "relations",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "facility",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "area",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "system",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "discipline",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "procurementPackage",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "processLine",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "id",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
 				"name": "topTag",
 				"type": "varchar",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "type",
-				"type": "varchar",
+				"name": "attributes",
+				"type": "json",
 				"precision": 0,
 				"scale": 0
 			}

@@ -12,12 +12,12 @@
 					"name": "mysqlEquipment"
 				}
 			],
-			"sinks": [],
-			"transformations": [
+			"sinks": [
 				{
-					"name": "attributederivation"
+					"name": "sink1"
 				}
 			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          PartitionKey as string,",
@@ -44,7 +44,10 @@
 				"     batchSize: 3,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> mysqlEquipment",
-				"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation"
+				"mysqlEquipment sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
