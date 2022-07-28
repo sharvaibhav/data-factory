@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "MySqlEquipmentSink",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -35,7 +39,7 @@
 				"          processLine as string,",
 				"          id as string,",
 				"          topTag as string,",
-				"          attributes as any",
+				"          attributes as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -45,9 +49,50 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> mysqlEquipment",
 				"mysqlEquipment sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          PartitionKey as string,",
+				"          RowKey as string,",
+				"          Timestamp as string,",
+				"          type as string,",
+				"          tagNumber as string,",
+				"          description as string,",
+				"          relations as string,",
+				"          facility as string,",
+				"          area as string,",
+				"          system as string,",
+				"          discipline as string,",
+				"          procurementPackage as string,",
+				"          processLine as string,",
+				"          id as string,",
+				"          topTag as string,",
+				"          attributes as any",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          PartitionKey,",
+				"          RowKey,",
+				"          Timestamp,",
+				"          type,",
+				"          tagNumber,",
+				"          description,",
+				"          relations,",
+				"          facility,",
+				"          area,",
+				"          system,",
+				"          discipline,",
+				"          procurementPackage,",
+				"          processLine,",
+				"          id,",
+				"          topTag,",
+				"          attributes",
+				"     )) ~> sink1"
 			]
 		}
 	}
