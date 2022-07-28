@@ -37,9 +37,8 @@
 								"parameters": {},
 								"datasetParameters": {
 									"mysqlEquipment": {},
-									"testsink": {}
-								},
-								"linkedServiceParameters": {}
+									"sink1": {}
+								}
 							},
 							"staging": {},
 							"compute": {

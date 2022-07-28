@@ -874,6 +874,53 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "TestingDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"mysqlEquipment": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/TestingDataFlow')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_dlm')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -945,55 +992,7 @@
 						"scale": 0
 					},
 					{
-						"name": "area",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "attributes",
-						"type": "json",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "description",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "discipline",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "facility",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "id",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "processLine",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "procurementPackage",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "system",
+						"name": "type",
 						"type": "varchar",
 						"precision": 0,
 						"scale": 0
@@ -1005,14 +1004,68 @@
 						"scale": 0
 					},
 					{
+						"name": "description",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "relations",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "facility",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "area",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "system",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "discipline",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "procurementPackage",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "processLine",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
 						"name": "topTag",
 						"type": "varchar",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "type",
-						"type": "varchar",
+						"name": "attributes",
+						"type": "text",
 						"precision": 0,
 						"scale": 0
 					}
@@ -1234,7 +1287,7 @@
 					},
 					{
 						"name": "attributes",
-						"type": "json",
+						"type": "text",
 						"precision": 0,
 						"scale": 0
 					}
@@ -1526,14 +1579,10 @@
 								"referenceName": "MySqlEquipmentSink",
 								"type": "DatasetReference"
 							},
-							"name": "testsink"
+							"name": "sink1"
 						}
 					],
-					"transformations": [
-						{
-							"name": "attributederivation"
-						}
-					],
+					"transformations": [],
 					"scriptLines": [
 						"source(output(",
 						"          PartitionKey as string,",
@@ -1560,9 +1609,8 @@
 						"     batchSize: 3,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> mysqlEquipment",
-						"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation",
-						"attributederivation sink(allowSchemaDrift: false,",
-						"     validateSchema: false,",
+						"mysqlEquipment sink(allowSchemaDrift: true,",
+						"     validateSchema: true,",
 						"     input(",
 						"          PartitionKey as string,",
 						"          RowKey as string,",
@@ -1579,14 +1627,15 @@
 						"          processLine as string,",
 						"          id as string,",
 						"          topTag as string,",
-						"          attributes as any",
+						"          attributes as string",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
 						"     format: 'table',",
-						"     saveOrder: 1,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
 						"          PartitionKey,",
 						"          RowKey,",
@@ -1604,61 +1653,13 @@
 						"          id,",
 						"          topTag,",
 						"          attributes",
-						"     )) ~> testsink"
+						"     )) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/MYSQLEquipment')]",
 				"[concat(variables('factoryId'), '/datasets/MySqlEquipmentSink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "TestingDataFlow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"mysqlEquipment": {},
-									"testsink": {}
-								},
-								"linkedServiceParameters": {}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/TestingDataFlow')]"
 			]
 		}
 	]

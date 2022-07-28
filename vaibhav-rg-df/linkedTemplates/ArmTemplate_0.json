@@ -171,55 +171,7 @@
 						"scale": 0
 					},
 					{
-						"name": "area",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "attributes",
-						"type": "json",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "description",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "discipline",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "facility",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "id",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "processLine",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "procurementPackage",
-						"type": "varchar",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "system",
+						"name": "type",
 						"type": "varchar",
 						"precision": 0,
 						"scale": 0
@@ -231,14 +183,68 @@
 						"scale": 0
 					},
 					{
+						"name": "description",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "relations",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "facility",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "area",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "system",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "discipline",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "procurementPackage",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "processLine",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
 						"name": "topTag",
 						"type": "varchar",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "type",
-						"type": "varchar",
+						"name": "attributes",
+						"type": "text",
 						"precision": 0,
 						"scale": 0
 					}
@@ -460,7 +466,7 @@
 					},
 					{
 						"name": "attributes",
-						"type": "json",
+						"type": "text",
 						"precision": 0,
 						"scale": 0
 					}
@@ -1526,14 +1532,10 @@
 								"referenceName": "MySqlEquipmentSink",
 								"type": "DatasetReference"
 							},
-							"name": "testsink"
+							"name": "sink1"
 						}
 					],
-					"transformations": [
-						{
-							"name": "attributederivation"
-						}
-					],
+					"transformations": [],
 					"scriptLines": [
 						"source(output(",
 						"          PartitionKey as string,",
@@ -1560,9 +1562,8 @@
 						"     batchSize: 3,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> mysqlEquipment",
-						"mysqlEquipment derive(attributes = escape(attributes, 'json')) ~> attributederivation",
-						"attributederivation sink(allowSchemaDrift: false,",
-						"     validateSchema: false,",
+						"mysqlEquipment sink(allowSchemaDrift: true,",
+						"     validateSchema: true,",
 						"     input(",
 						"          PartitionKey as string,",
 						"          RowKey as string,",
@@ -1579,14 +1580,15 @@
 						"          processLine as string,",
 						"          id as string,",
 						"          topTag as string,",
-						"          attributes as any",
+						"          attributes as string",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
 						"     format: 'table',",
-						"     saveOrder: 1,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
 						"          PartitionKey,",
 						"          RowKey,",
@@ -1604,7 +1606,7 @@
 						"          id,",
 						"          topTag,",
 						"          attributes",
-						"     )) ~> testsink"
+						"     )) ~> sink1"
 					]
 				}
 			},
