@@ -100,7 +100,7 @@
 			},
 			{
 				"name": "attributes",
-				"type": "varchar",
+				"type": "json",
 				"precision": 0,
 				"scale": 0
 			}
