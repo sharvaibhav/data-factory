@@ -100,7 +100,7 @@
 			},
 			{
 				"name": "attributes",
-				"type": "json",
+				"type": "text",
 				"precision": 0,
 				"scale": 0
 			}
