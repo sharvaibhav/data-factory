@@ -6,19 +6,19 @@
 			"type": "LinkedServiceReference",
 			"parameters": {
 				"MySqlServerName": {
-					"value": "@dataset().PipelineMySqlServerName",
+					"value": "@dataset().datasetMySqlServerName",
 					"type": "Expression"
 				},
 				"MySqlDBName": {
-					"value": "@dataset().PipelineMySqlDBName",
+					"value": "@dataset().datasetMySqlDBName",
 					"type": "Expression"
 				},
 				"MySQLUserName": {
-					"value": "@dataset().PipelineMySQLUserName",
+					"value": "@dataset().datasetMySQLUserName",
 					"type": "Expression"
 				},
 				"MySQLPassword": {
-					"value": "@dataset().PipelineMySQLPassword",
+					"value": "@dataset().datasetMySQLPassword",
 					"type": "Expression"
 				}
 			}
@@ -45,7 +45,7 @@
 		"schema": [],
 		"typeProperties": {
 			"tableName": {
-				"value": "@dataset().MySQLDbTableName",
+				"value": "@dataset().datasetMySQLDbTableName",
 				"type": "Expression"
 			}
 		}
