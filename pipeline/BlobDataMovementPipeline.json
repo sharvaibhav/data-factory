@@ -166,7 +166,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"BlobSourceFileName": {
-								"value": "@pipeline().parameters.BlobDataMovementPipelineSinkFileName",
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameEquipment",
 								"type": "Expression"
 							}
 						}
