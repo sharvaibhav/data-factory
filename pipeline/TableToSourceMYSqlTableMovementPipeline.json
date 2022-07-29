@@ -37,7 +37,13 @@
 				"inputs": [
 					{
 						"referenceName": "TableStorageDataSet",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.pipelineTableStorageName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
