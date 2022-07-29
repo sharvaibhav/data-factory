@@ -55,7 +55,8 @@
 		],
 		"parameters": {
 			"PipelineBlobSourceFileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "johancastberg-area-data.json"
 			}
 		},
 		"annotations": []
