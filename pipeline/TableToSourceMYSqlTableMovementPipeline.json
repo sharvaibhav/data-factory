@@ -63,7 +63,7 @@
 		"parameters": {
 			"pipelineTableStorageName": {
 				"type": "String",
-				"defaultValue": "equipment"
+				"defaultValue": "equipments"
 			},
 			"pipelineMySqlDbTableName": {
 				"type": "String",
