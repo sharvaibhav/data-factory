@@ -1,5 +1,5 @@
 {
-	"name": "BlobDataMovementPipeline_copy1",
+	"name": "Comined Blob and Table movement",
 	"properties": {
 		"activities": [
 			{
@@ -269,6 +269,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TableToSourceMYSqlTableMovementPipeline",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
@@ -292,6 +296,10 @@
 			"BlobDataMovementPipelineSourceNameDiscipline": {
 				"type": "String",
 				"defaultValue": "johancastberg-discipline-data.json"
+			},
+			"CombinedPipelineTableStorageNameEquipment": {
+				"type": "string",
+				"defaultValue": "equipments"
 			}
 		},
 		"annotations": []
