@@ -225,6 +225,58 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Movement from Table to MySql",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Move Area Blob To Tables storage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Move Discipline Blob To Tables storage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Move Equipment Blob To Tables storage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Move System Blob To Tables storage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TableToSourceMYSqlTableMovementPipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"pipelineTableStorageNameEquipment": {
+							"value": "@pipeline().parameters.PipelineTableNameEquipment",
+							"type": "Expression"
+						},
+						"pipelineTableStorageNameSystem": {
+							"value": "@pipeline().parameters.PipelineTableNameSystem",
+							"type": "Expression"
+						},
+						"pipelineTableStorageNameArea": {
+							"value": "@pipeline().parameters.PipelineTableNameArea",
+							"type": "Expression"
+						}
+					}
+				}
 			}
 		],
 		"parameters": {
