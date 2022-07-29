@@ -54,6 +54,22 @@
 							"datasetMySQLDbTableName": {
 								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
 								"type": "Expression"
+							},
+							"datasetMySqlServerName": {
+								"value": "@pipeline().parameters.pipelineMySqlServerName",
+								"type": "Expression"
+							},
+							"datasetMySqlDBName": {
+								"value": "@pipeline().parameters.pipelineMySqlDbName",
+								"type": "Expression"
+							},
+							"datasetMySQLUserName": {
+								"value": "@pipeline().parameters.pipelineMySqlUserName",
+								"type": "Expression"
+							},
+							"datasetMySQLPassword": {
+								"value": "@pipeline().parameters.pipelineMySqlPassword",
+								"type": "Expression"
 							}
 						}
 					}
