@@ -273,7 +273,49 @@
 						"referenceName": "TableToSourceMYSqlTableMovementPipeline",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"pipelineTableStorageNameEquipment": {
+							"value": "@pipeline().parameters.CombinedPipelineTableStorageNameEquipment",
+							"type": "Expression"
+						},
+						"pipelineMySqlDbTableNameEquipment": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlDbTableNameEquipment",
+							"type": "Expression"
+						},
+						"pipelineMySqlServerName": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlServerName",
+							"type": "Expression"
+						},
+						"pipelineMySqlDbName": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlDbName",
+							"type": "Expression"
+						},
+						"pipelineMySqlUserName": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlUserName",
+							"type": "Expression"
+						},
+						"pipelineMySqlPassword": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlPassword",
+							"type": "Expression"
+						},
+						"pipelineTableStorageNameSystem": {
+							"value": "@pipeline().parameters.CombinedPipelineTableStorageNameSystem",
+							"type": "Expression"
+						},
+						"pipelineMySqlDbTableNameSystem": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlDbTableNameSystem",
+							"type": "Expression"
+						},
+						"pipelineTableStorageNameArea": {
+							"value": "@pipeline().parameters.CombinedPipelineTableStorageNameArea",
+							"type": "Expression"
+						},
+						"pipelineMySqlDbTableNameArea": {
+							"value": "@pipeline().parameters.CombinedPipelineMySqlDbTableNameArea",
+							"type": "Expression"
+						}
+					}
 				}
 			}
 		],
