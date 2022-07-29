@@ -1,0 +1,27 @@
+{
+	"name": "SinkBlobDataSet_copy1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"BlobSinkFileName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().BlobSinkFileName",
+					"type": "Expression"
+				},
+				"container": "sink"
+			}
+		},
+		"schema": {}
+	}
+}
