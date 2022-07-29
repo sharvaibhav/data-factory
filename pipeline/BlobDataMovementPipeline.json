@@ -48,7 +48,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"BlobSourceFileName": {
-								"value": "@pipeline().parameters.BlobDataMovementPipelineSinkFileName",
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameArea",
 								"type": "Expression"
 							}
 						}
@@ -240,11 +240,24 @@
 			}
 		],
 		"parameters": {
-			"BlobDataMovementPipelineSourceName": {
-				"type": "String"
-			},
 			"BlobDataMovementPipelineSinkFileName": {
 				"type": "String"
+			},
+			"BlobDataMovementPipelineSourceNameArea": {
+				"type": "String",
+				"defaultValue": "johancastberg-area-data.json"
+			},
+			"BlobDataMovementPipelineSourceNameEquipment": {
+				"type": "String",
+				"defaultValue": "johancastberg-equipments-data.json"
+			},
+			"BlobDataMovementPipelineSourceNameSystem": {
+				"type": "String",
+				"defaultValue": "johancastberg-system-data.json"
+			},
+			"BlobDataMovementPipelineSourceNameDiscipline": {
+				"type": "String",
+				"defaultValue": "johancastberg-equipments-data.json"
 			}
 		},
 		"annotations": []
