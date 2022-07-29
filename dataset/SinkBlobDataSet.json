@@ -1,5 +1,5 @@
 {
-	"name": "SinkBlobDataSet_copy1",
+	"name": "SinkBlobDataSet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "BlobLinkedService",
