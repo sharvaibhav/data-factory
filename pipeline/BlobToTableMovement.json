@@ -107,7 +107,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"TableStorageName": {
-								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"value": "@pipeline().parameters.PipelineTableNameDiscipline",
 								"type": "Expression"
 							}
 						}
@@ -163,7 +163,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"TableStorageName": {
-								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"value": "@pipeline().parameters.PipelineTableNameEquipment",
 								"type": "Expression"
 							}
 						}
@@ -219,7 +219,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"TableStorageName": {
-								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"value": "@pipeline().parameters.PipelineTableNameSystem",
 								"type": "Expression"
 							}
 						}
