@@ -15,10 +15,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().BlobSinkFileName",
-					"type": "Expression"
-				},
 				"container": "sink"
 			}
 		},
