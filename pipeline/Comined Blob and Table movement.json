@@ -239,7 +239,7 @@
 				]
 			},
 			{
-				"name": "Execute Pipeline1",
+				"name": "Move Tabl storage to MySql tables",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
