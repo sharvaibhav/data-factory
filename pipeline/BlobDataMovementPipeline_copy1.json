@@ -1,0 +1,299 @@
+{
+	"name": "BlobDataMovementPipeline_copy1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Blob Area Data Movement",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "DESCRIPTION",
+						"value": "Blob data movement between source and sync."
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkBlobDataSet",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Blob System Data Movement",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "DESCRIPTION",
+						"value": "Blob data movement between source and sync."
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameSystem",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkBlobDataSet",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Blob Equipment Data Movement",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "DESCRIPTION",
+						"value": "Blob data movement between source and sync."
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameEquipment",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkBlobDataSet",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Blob Discipline Data Movement",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "DESCRIPTION",
+						"value": "Blob data movement between source and sync."
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameDiscipline",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkBlobDataSet",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Blob Area Data Movement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Blob System Data Movement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Blob Equipment Data Movement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Blob Discipline Data Movement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"parameters": {
+			"BlobDataMovementPipelineSinkFileName": {
+				"type": "String"
+			},
+			"BlobDataMovementPipelineSourceNameArea": {
+				"type": "String",
+				"defaultValue": "johancastberg-area-data.json"
+			},
+			"BlobDataMovementPipelineSourceNameEquipment": {
+				"type": "String",
+				"defaultValue": "johancastberg-equipments-data.json"
+			},
+			"BlobDataMovementPipelineSourceNameSystem": {
+				"type": "String",
+				"defaultValue": "johancastberg-system-data.json"
+			},
+			"BlobDataMovementPipelineSourceNameDiscipline": {
+				"type": "String",
+				"defaultValue": "johancastberg-discipline-data.json"
+			}
+		},
+		"annotations": []
+	}
+}
