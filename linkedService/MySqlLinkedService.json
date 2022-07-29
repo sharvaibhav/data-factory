@@ -1,0 +1,25 @@
+{
+	"name": "MySqlLinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"MySqlServerName": {
+				"type": "String"
+			},
+			"MySqlDBName": {
+				"type": "String"
+			},
+			"MySQLUserName": {
+				"type": "String"
+			},
+			"MySQLPassword": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureMySql",
+		"typeProperties": {
+			"connectionString": "Server=@{linkedService().MySqlServerName};Port=3306;Database=@{linkedService().MySqlDBName};UID=@{linkedService().MySQLUserName};PWD=@{linkedService().MySQLPassword};SSLMode=1;UseSystemTrustStore=0"
+		}
+	}
+}
