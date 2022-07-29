@@ -40,7 +40,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"TableStorageName": {
-								"value": "@pipeline().parameters.pipelineTableStorageName",
+								"value": "@pipeline().parameters.pipelineTableStorageNameEquipment",
 								"type": "Expression"
 							}
 						}
@@ -52,7 +52,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"datasetMySQLDbTableName": {
-								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
+								"value": "@pipeline().parameters.pipelineMySqlDbTableNameEquipment",
 								"type": "Expression"
 							},
 							"datasetMySqlServerName": {
