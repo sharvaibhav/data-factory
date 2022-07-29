@@ -5,19 +5,11 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "MYSQLEquipment",
-						"type": "DatasetReference"
-					},
 					"name": "mysqlEquipment"
 				}
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "MySqlEquipmentSink",
-						"type": "DatasetReference"
-					},
 					"name": "sink1"
 				}
 			],
@@ -44,35 +36,9 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     inferDriftedColumnTypes: true,",
-				"     limit: 10,",
-				"     batchSize: 3,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> mysqlEquipment",
+				"     limit: 10) ~> mysqlEquipment",
 				"mysqlEquipment sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
-				"     input(",
-				"          PartitionKey as string,",
-				"          RowKey as string,",
-				"          Timestamp as string,",
-				"          type as string,",
-				"          tagNumber as string,",
-				"          description as string,",
-				"          relations as string,",
-				"          facility as string,",
-				"          area as string,",
-				"          system as string,",
-				"          discipline as string,",
-				"          procurementPackage as string,",
-				"          processLine as string,",
-				"          id as string,",
-				"          topTag as string,",
-				"          attributes as string",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
@@ -92,7 +58,8 @@
 				"          id,",
 				"          topTag,",
 				"          attributes",
-				"     )) ~> sink1"
+				"     ),",
+				"     format: 'table') ~> sink1"
 			]
 		}
 	}
