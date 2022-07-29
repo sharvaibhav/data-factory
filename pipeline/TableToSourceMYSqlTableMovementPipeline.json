@@ -113,7 +113,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"TableStorageName": {
-								"value": "@pipeline().parameters.pipelineTableStorageName",
+								"value": "@pipeline().parameters.pipelineTableStorageNameArea",
 								"type": "Expression"
 							}
 						}
@@ -125,7 +125,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"datasetMySQLDbTableName": {
-								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
+								"value": "@pipeline().parameters.pipelineMySqlDbTableNameArea",
 								"type": "Expression"
 							},
 							"datasetMySqlServerName": {
