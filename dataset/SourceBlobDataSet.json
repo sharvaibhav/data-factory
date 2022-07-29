@@ -1,0 +1,27 @@
+{
+	"name": "SourceBlobDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"BlobSourceFileName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().BlobSourceFileName",
+					"type": "Expression"
+				},
+				"container": "source"
+			}
+		},
+		"schema": {}
+	}
+}
