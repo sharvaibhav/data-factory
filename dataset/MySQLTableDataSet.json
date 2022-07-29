@@ -24,7 +24,7 @@
 			}
 		},
 		"parameters": {
-			"MySQLDbTableName": {
+			"datasetMySQLDbTableName": {
 				"type": "String"
 			},
 			"datasetMySqlServerName": {

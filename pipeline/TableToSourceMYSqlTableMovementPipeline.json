@@ -51,7 +51,7 @@
 						"referenceName": "MySQLTableDataSet",
 						"type": "DatasetReference",
 						"parameters": {
-							"MySQLDbTableName": {
+							"datasetMySQLDbTableName": {
 								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
 								"type": "Expression"
 							},
