@@ -1,0 +1,23 @@
+{
+	"name": "MySQLTableDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MySqlLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"MySQLDbTableName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": {
+				"value": "@dataset().MySQLDbTableName",
+				"type": "Expression"
+			}
+		}
+	}
+}
