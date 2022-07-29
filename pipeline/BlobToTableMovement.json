@@ -143,7 +143,127 @@
 						"azureTableInsertType": "merge",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['attributes'][0]['id']"
+								},
+								"sink": {
+									"name": "attributes"
+								}
+							},
+							{
+								"source": {
+									"path": "$['type']"
+								},
+								"sink": {
+									"name": "type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['tagNumber']"
+								},
+								"sink": {
+									"name": "tagNumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['description']"
+								},
+								"sink": {
+									"name": "description",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['relations'][0]['id']"
+								},
+								"sink": {
+									"name": "relations"
+								}
+							},
+							{
+								"source": {
+									"path": "$['facility']"
+								},
+								"sink": {
+									"name": "facility",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['area']"
+								},
+								"sink": {
+									"name": "area",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['system']"
+								},
+								"sink": {
+									"name": "system",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['discipline']"
+								},
+								"sink": {
+									"name": "discipline",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['procurementPackage']"
+								},
+								"sink": {
+									"name": "procurementPackage",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['processLine']"
+								},
+								"sink": {
+									"name": "processLine",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['id']"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['topTag']"
+								},
+								"sink": {
+									"name": "topTag",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
