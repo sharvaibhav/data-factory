@@ -149,14 +149,6 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['attributes']"
-								},
-								"sink": {
-									"name": "attributes"
-								}
-							},
-							{
-								"source": {
 									"path": "$['type']"
 								},
 								"sink": {
@@ -262,7 +254,9 @@
 									"type": "String"
 								}
 							}
-						]
+						],
+						"collectionReference": "",
+						"mapComplexValuesToString": true
 					}
 				},
 				"inputs": [
