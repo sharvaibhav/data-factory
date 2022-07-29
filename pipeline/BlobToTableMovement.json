@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Move Blob To Tables storage",
+				"name": "Move Area Blob To Tables storage",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -48,7 +48,13 @@
 				"outputs": [
 					{
 						"referenceName": "TableStorageDataSet",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
