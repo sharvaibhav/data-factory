@@ -1341,7 +1341,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"BlobSourceFileName": {
-										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameDiscipline",
 										"type": "Expression"
 									}
 								}
@@ -1397,7 +1397,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"BlobSourceFileName": {
-										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameEquipment",
 										"type": "Expression"
 									}
 								}
@@ -1453,7 +1453,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"BlobSourceFileName": {
-										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameSystem",
 										"type": "Expression"
 									}
 								}
