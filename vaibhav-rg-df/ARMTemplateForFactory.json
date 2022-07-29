@@ -558,7 +558,7 @@
 						]
 					},
 					{
-						"name": "Execute Pipeline1",
+						"name": "Move Tabl storage to MySql tables",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -1240,6 +1240,335 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/BlobDataMovementPipeline')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BlobToTableMovement')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Move Area Blob To Tables storage",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureTableSink",
+								"azureTableInsertType": "merge",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "TableStorageDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"TableStorageName": {
+										"value": "@pipeline().parameters.PipelineTableNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Move Discipline Blob To Tables storage",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureTableSink",
+								"azureTableInsertType": "merge",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "TableStorageDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"TableStorageName": {
+										"value": "@pipeline().parameters.PipelineTableNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Move Equipment Blob To Tables storage",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureTableSink",
+								"azureTableInsertType": "merge",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "TableStorageDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"TableStorageName": {
+										"value": "@pipeline().parameters.PipelineTableNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Move System Blob To Tables storage",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureTableSink",
+								"azureTableInsertType": "merge",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "TableStorageDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"TableStorageName": {
+										"value": "@pipeline().parameters.PipelineTableNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Movement from Table to MySql",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Move Area Blob To Tables storage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Move Discipline Blob To Tables storage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Move Equipment Blob To Tables storage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Move System Blob To Tables storage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "TableToSourceMYSqlTableMovementPipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"pipelineTableStorageNameEquipment": {
+									"value": "@pipeline().parameters.PipelineTableNameEquipment",
+									"type": "Expression"
+								},
+								"pipelineTableStorageNameSystem": {
+									"value": "@pipeline().parameters.PipelineTableNameSystem",
+									"type": "Expression"
+								},
+								"pipelineTableStorageNameArea": {
+									"value": "@pipeline().parameters.PipelineTableNameArea",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"PipelineBlobSourceFileNameArea": {
+						"type": "string",
+						"defaultValue": "johancastberg-area-data.json"
+					},
+					"PipelineBlobSourceFileNameSystem": {
+						"type": "string",
+						"defaultValue": "johancastberg-system-data.json"
+					},
+					"PipelineBlobSourceFileNameEquipment": {
+						"type": "string",
+						"defaultValue": "johancastberg-equipments-data.json"
+					},
+					"PipelineBlobSourceFileNameDiscipline": {
+						"type": "string",
+						"defaultValue": "johancastberg-discipline-data.json"
+					},
+					"PipelineTableNameArea": {
+						"type": "string",
+						"defaultValue": "Tarea"
+					},
+					"PipelineTableNameSystem": {
+						"type": "string",
+						"defaultValue": "Tsystem"
+					},
+					"PipelineTableNameEquipment": {
+						"type": "string",
+						"defaultValue": "Tequipment"
+					},
+					"PipelineTableNameDiscipline": {
+						"type": "string",
+						"defaultValue": "Tdiscipline"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceBlobDataSet')]",
+				"[concat(variables('factoryId'), '/datasets/TableStorageDataSet')]",
+				"[concat(variables('factoryId'), '/pipelines/TableToSourceMYSqlTableMovementPipeline')]"
 			]
 		}
 	]
