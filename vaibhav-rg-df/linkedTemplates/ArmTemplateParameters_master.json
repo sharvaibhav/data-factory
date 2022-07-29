@@ -5,17 +5,23 @@
 		"factoryName": {
 			"value": "vaibhav-rg-df"
 		},
-		"AzureMySql2_connectionString": {
-			"value": ""
-		},
-		"AzureTableStorage1_connectionString": {
-			"value": ""
-		},
-		"FormattedEquipmentLinkedService_connectionString": {
-			"value": ""
-		},
 		"loggingservice_connectionString": {
 			"value": ""
+		},
+		"BlobLinkedService_connectionString": {
+			"value": ""
+		},
+		"TableLinkedService_connectionString": {
+			"value": ""
+		},
+		"MySqlLinkedService_connectionString": {
+			"value": ""
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
+			"value": "johancastberg-area-data.json"
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+			"value": "NA"
 		},
 		"containerUri": {
 			"value": ""

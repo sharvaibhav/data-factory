@@ -7,21 +7,29 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "vaibhav-rg-df"
 		},
-		"AzureMySql2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureMySql2'"
-		},
-		"AzureTableStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
-		},
-		"FormattedEquipmentLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'FormattedEquipmentLinkedService'"
-		},
 		"loggingservice_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
+		},
+		"BlobLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobLinkedService'"
+		},
+		"TableLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'TableLinkedService'"
+		},
+		"MySqlLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'MySqlLinkedService'"
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
+			"type": "string",
+			"defaultValue": "johancastberg-area-data.json"
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+			"type": "string",
+			"defaultValue": "NA"
 		},
 		"containerUri": {
 			"type": "string",
@@ -50,17 +58,23 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureMySql2_connectionString": {
-						"value": "[parameters('AzureMySql2_connectionString')]"
-					},
-					"AzureTableStorage1_connectionString": {
-						"value": "[parameters('AzureTableStorage1_connectionString')]"
-					},
-					"FormattedEquipmentLinkedService_connectionString": {
-						"value": "[parameters('FormattedEquipmentLinkedService_connectionString')]"
-					},
 					"loggingservice_connectionString": {
 						"value": "[parameters('loggingservice_connectionString')]"
+					},
+					"BlobLinkedService_connectionString": {
+						"value": "[parameters('BlobLinkedService_connectionString')]"
+					},
+					"TableLinkedService_connectionString": {
+						"value": "[parameters('TableLinkedService_connectionString')]"
+					},
+					"MySqlLinkedService_connectionString": {
+						"value": "[parameters('MySqlLinkedService_connectionString')]"
+					},
+					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
+						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName')]"
+					},
+					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName')]"
 					}
 				}
 			},
