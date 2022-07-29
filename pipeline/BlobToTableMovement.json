@@ -57,6 +57,174 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Move Discipline Blob To Tables storage",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureTableSink",
+						"azureTableInsertType": "merge",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TableStorageDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Move Equipment Blob To Tables storage",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureTableSink",
+						"azureTableInsertType": "merge",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TableStorageDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Move System Blob To Tables storage",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureTableSink",
+						"azureTableInsertType": "merge",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TableStorageDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.PipelineTableNameArea",
+								"type": "Expression"
+							}
+						}
+					}
+				]
 			}
 		],
 		"parameters": {
