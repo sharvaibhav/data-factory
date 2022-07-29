@@ -17,9 +17,6 @@
 		"loggingservice_connectionString": {
 			"value": ""
 		},
-		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
-			"value": "johancastberg-area-data.json"
-		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"value": "NA"
 		},
