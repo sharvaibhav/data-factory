@@ -8,6 +8,10 @@
 				"pipelineReference": {
 					"referenceName": "BlobDataMovementPipeline",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"BlobDataMovementPipelineSourceName": "johancastberg-area-data.json",
+					"BlobDataMovementPipelineSinkFileName": "NA"
 				}
 			}
 		],
