@@ -476,7 +476,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"BlobSourceFileName": {
-										"value": "@pipeline().parameters.BlobDataMovementPipelineSinkFileName",
+										"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameDiscipline",
 										"type": "Expression"
 									}
 								}
@@ -513,7 +513,7 @@
 					},
 					"BlobDataMovementPipelineSourceNameDiscipline": {
 						"type": "String",
-						"defaultValue": "johancastberg-equipments-data.json"
+						"defaultValue": "johancastberg-discipline-data.json"
 					}
 				},
 				"annotations": []
