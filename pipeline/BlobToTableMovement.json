@@ -39,7 +39,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"BlobSourceFileName": {
-								"value": "@pipeline().parameters.PipelineBlobSourceFileName",
+								"value": "@pipeline().parameters.PipelineBlobSourceFileNameArea",
 								"type": "Expression"
 							}
 						}
@@ -69,6 +69,22 @@
 			"PipelineBlobSourceFileNameDiscipline": {
 				"type": "string",
 				"defaultValue": "johancastberg-discipline-data.json"
+			},
+			"PipelineTableNameArea": {
+				"type": "string",
+				"defaultValue": "Tarea"
+			},
+			"PipelineTableNameSystem": {
+				"type": "string",
+				"defaultValue": "Tsystem"
+			},
+			"PipelineTableNameEquipment": {
+				"type": "string",
+				"defaultValue": "Tequipment"
+			},
+			"PipelineTableNameDiscipline": {
+				"type": "string",
+				"defaultValue": "Tdiscipline"
 			}
 		},
 		"annotations": []
