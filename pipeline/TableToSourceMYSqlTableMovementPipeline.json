@@ -1,6 +1,73 @@
 {
 	"name": "TableToSourceMYSqlTableMovementPipeline",
 	"properties": {
+		"activities": [
+			{
+				"name": "Move Table to MySql",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureTableSource",
+						"azureTableSourceIgnoreTableNotFound": false
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TableStorageDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.TableStorageToMySQLTablePipelineTableStorageParam",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "MySQLTableDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"MySQLDbTableName": {
+								"value": "@pipeline().parameters.TableStorageToMySQLTablePipelineMYSqlTableNameParam",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"TableStorageToMySQLTablePipelineTableStorageParam": {
+				"type": "String"
+			},
+			"TableStorageToMySQLTablePipelineMYSqlTableNameParam": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
