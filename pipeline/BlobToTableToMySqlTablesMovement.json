@@ -1,5 +1,5 @@
 {
-	"name": "BlobToTableMovement",
+	"name": "BlobToTableToMySqlTablesMovement",
 	"properties": {
 		"activities": [
 			{
