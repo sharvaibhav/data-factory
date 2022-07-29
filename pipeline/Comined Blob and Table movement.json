@@ -302,7 +302,40 @@
 				"defaultValue": "equipments"
 			},
 			"CombinedPipelineMySqlDbTableNameEquipment": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "equipment"
+			},
+			"CombinedPipelineMySqlServerName": {
+				"type": "string",
+				"defaultValue": "vaibhav-adf-mysql-server.mysql.database.azure.com"
+			},
+			"CombinedPipelineMySqlDbName": {
+				"type": "string",
+				"defaultValue": "dump"
+			},
+			"CombinedPipelineMySqlUserName": {
+				"type": "string",
+				"defaultValue": "vaibhav@vaibhav-adf-mysql-server"
+			},
+			"CombinedPipelineMySqlPassword": {
+				"type": "string",
+				"defaultValue": "Test1234"
+			},
+			"CombinedPipelineTableStorageNameSystem": {
+				"type": "string",
+				"defaultValue": "system"
+			},
+			"CombinedPipelineMySqlDbTableNameSystem": {
+				"type": "string",
+				"defaultValue": "system"
+			},
+			"CombinedPipelineTableStorageNameArea": {
+				"type": "string",
+				"defaultValue": "area"
+			},
+			"CombinedPipelineMySqlDbTableNameArea": {
+				"type": "string",
+				"defaultValue": "area"
 			}
 		},
 		"annotations": []
