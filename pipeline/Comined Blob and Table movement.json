@@ -300,6 +300,9 @@
 			"CombinedPipelineTableStorageNameEquipment": {
 				"type": "string",
 				"defaultValue": "equipments"
+			},
+			"CombinedPipelineMySqlDbTableNameEquipment": {
+				"type": "string"
 			}
 		},
 		"annotations": []
