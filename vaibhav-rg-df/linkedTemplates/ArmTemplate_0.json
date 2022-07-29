@@ -803,6 +803,406 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Comined Blob and Table movement')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Blob Area Data Movement",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "DESCRIPTION",
+								"value": "Blob data movement between source and sync."
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameArea",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Blob System Data Movement",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "DESCRIPTION",
+								"value": "Blob data movement between source and sync."
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameSystem",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Blob Equipment Data Movement",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "DESCRIPTION",
+								"value": "Blob data movement between source and sync."
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameEquipment",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Blob Discipline Data Movement",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "DESCRIPTION",
+								"value": "Blob data movement between source and sync."
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"BlobSourceFileName": {
+										"value": "@pipeline().parameters.BlobDataMovementPipelineSourceNameDiscipline",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkBlobDataSet",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Blob Area Data Movement",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Blob System Data Movement",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Blob Equipment Data Movement",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Blob Discipline Data Movement",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "TableToSourceMYSqlTableMovementPipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"pipelineTableStorageNameEquipment": {
+									"value": "@pipeline().parameters.CombinedPipelineTableStorageNameEquipment",
+									"type": "Expression"
+								},
+								"pipelineMySqlDbTableNameEquipment": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlDbTableNameEquipment",
+									"type": "Expression"
+								},
+								"pipelineMySqlServerName": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlServerName",
+									"type": "Expression"
+								},
+								"pipelineMySqlDbName": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlDbName",
+									"type": "Expression"
+								},
+								"pipelineMySqlUserName": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlUserName",
+									"type": "Expression"
+								},
+								"pipelineMySqlPassword": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlPassword",
+									"type": "Expression"
+								},
+								"pipelineTableStorageNameSystem": {
+									"value": "@pipeline().parameters.CombinedPipelineTableStorageNameSystem",
+									"type": "Expression"
+								},
+								"pipelineMySqlDbTableNameSystem": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlDbTableNameSystem",
+									"type": "Expression"
+								},
+								"pipelineTableStorageNameArea": {
+									"value": "@pipeline().parameters.CombinedPipelineTableStorageNameArea",
+									"type": "Expression"
+								},
+								"pipelineMySqlDbTableNameArea": {
+									"value": "@pipeline().parameters.CombinedPipelineMySqlDbTableNameArea",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"BlobDataMovementPipelineSinkFileName": {
+						"type": "String"
+					},
+					"BlobDataMovementPipelineSourceNameArea": {
+						"type": "String",
+						"defaultValue": "johancastberg-area-data.json"
+					},
+					"BlobDataMovementPipelineSourceNameEquipment": {
+						"type": "String",
+						"defaultValue": "johancastberg-equipments-data.json"
+					},
+					"BlobDataMovementPipelineSourceNameSystem": {
+						"type": "String",
+						"defaultValue": "johancastberg-system-data.json"
+					},
+					"BlobDataMovementPipelineSourceNameDiscipline": {
+						"type": "String",
+						"defaultValue": "johancastberg-discipline-data.json"
+					},
+					"CombinedPipelineTableStorageNameEquipment": {
+						"type": "string",
+						"defaultValue": "equipments"
+					},
+					"CombinedPipelineMySqlDbTableNameEquipment": {
+						"type": "string",
+						"defaultValue": "equipment"
+					},
+					"CombinedPipelineMySqlServerName": {
+						"type": "string",
+						"defaultValue": "vaibhav-adf-mysql-server.mysql.database.azure.com"
+					},
+					"CombinedPipelineMySqlDbName": {
+						"type": "string",
+						"defaultValue": "dump"
+					},
+					"CombinedPipelineMySqlUserName": {
+						"type": "string",
+						"defaultValue": "vaibhav@vaibhav-adf-mysql-server"
+					},
+					"CombinedPipelineMySqlPassword": {
+						"type": "string",
+						"defaultValue": "Test1234"
+					},
+					"CombinedPipelineTableStorageNameSystem": {
+						"type": "string",
+						"defaultValue": "system"
+					},
+					"CombinedPipelineMySqlDbTableNameSystem": {
+						"type": "string",
+						"defaultValue": "system"
+					},
+					"CombinedPipelineTableStorageNameArea": {
+						"type": "string",
+						"defaultValue": "area"
+					},
+					"CombinedPipelineMySqlDbTableNameArea": {
+						"type": "string",
+						"defaultValue": "area"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceBlobDataSet')]",
+				"[concat(variables('factoryId'), '/datasets/SinkBlobDataSet')]",
+				"[concat(variables('factoryId'), '/pipelines/TableToSourceMYSqlTableMovementPipeline')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/BlobMovementPipelineTrigger')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
