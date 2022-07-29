@@ -253,6 +253,14 @@
 									"name": "topTag",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['attributes']"
+								},
+								"sink": {
+									"name": "attributes"
+								}
 							}
 						],
 						"collectionReference": "",
