@@ -27,16 +27,16 @@
 			"MySQLDbTableName": {
 				"type": "String"
 			},
-			"PipelineMySqlServerName": {
+			"datasetMySqlServerName": {
 				"type": "String"
 			},
-			"PipelineMySqlDBName": {
+			"datasetMySqlDBName": {
 				"type": "String"
 			},
-			"PipelineMySQLUserName": {
+			"datasetMySQLUserName": {
 				"type": "String"
 			},
-			"PipelineMySQLPassword": {
+			"datasetMySQLPassword": {
 				"type": "String"
 			}
 		},

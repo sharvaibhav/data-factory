@@ -55,7 +55,7 @@
 								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
 								"type": "Expression"
 							},
-							"PipelineMySqlServerName": {
+							"datasetMySqlServerName": {
 								"value": "@pipeline().parameters.pipelineMySqlServerName",
 								"type": "Expression"
 							}
