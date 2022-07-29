@@ -165,10 +165,39 @@
 				"linkedServiceName": {
 					"referenceName": "MySqlLinkedService",
 					"type": "LinkedServiceReference",
-					"parameters": {}
+					"parameters": {
+						"MySqlServerName": {
+							"value": "@dataset().datasetMySqlServerName",
+							"type": "Expression"
+						},
+						"MySqlDBName": {
+							"value": "@dataset().datasetMySqlDBName",
+							"type": "Expression"
+						},
+						"MySQLUserName": {
+							"value": "@dataset().datasetMySQLUserName",
+							"type": "Expression"
+						},
+						"MySQLPassword": {
+							"value": "@dataset().datasetMySQLPassword",
+							"type": "Expression"
+						}
+					}
 				},
 				"parameters": {
-					"MySQLDbTableName": {
+					"datasetMySQLDbTableName": {
+						"type": "String"
+					},
+					"datasetMySqlServerName": {
+						"type": "String"
+					},
+					"datasetMySqlDBName": {
+						"type": "String"
+					},
+					"datasetMySQLUserName": {
+						"type": "String"
+					},
+					"datasetMySQLPassword": {
 						"type": "String"
 					}
 				},
@@ -177,7 +206,7 @@
 				"schema": [],
 				"typeProperties": {
 					"tableName": {
-						"value": "@dataset().MySQLDbTableName",
+						"value": "@dataset().datasetMySQLDbTableName",
 						"type": "Expression"
 					}
 				}
@@ -344,7 +373,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"TableStorageName": {
-										"value": "@pipeline().parameters.TableStorageToMySQLTablePipelineTableStorageParam",
+										"value": "@pipeline().parameters.pipelineTableStorageName",
 										"type": "Expression"
 									}
 								}
@@ -355,8 +384,24 @@
 								"referenceName": "MySQLTableDataSet",
 								"type": "DatasetReference",
 								"parameters": {
-									"MySQLDbTableName": {
-										"value": "@pipeline().parameters.TableStorageToMySQLTablePipelineMYSqlTableNameParam",
+									"datasetMySQLDbTableName": {
+										"value": "@pipeline().parameters.pipelineMySqlDbTableName",
+										"type": "Expression"
+									},
+									"datasetMySqlServerName": {
+										"value": "@pipeline().parameters.pipelineMySqlServerName",
+										"type": "Expression"
+									},
+									"datasetMySqlDBName": {
+										"value": "@pipeline().parameters.pipelineMySqlDbName",
+										"type": "Expression"
+									},
+									"datasetMySQLUserName": {
+										"value": "@pipeline().parameters.pipelineMySqlUserName",
+										"type": "Expression"
+									},
+									"datasetMySQLPassword": {
+										"value": "@pipeline().parameters.pipelineMySqlPassword",
 										"type": "Expression"
 									}
 								}
@@ -374,6 +419,27 @@
 					},
 					"TableStorageToMySQLTablePipelineMYSqlTableNameParam": {
 						"type": "String"
+					},
+					"pipelineTableStorageName": {
+						"type": "String"
+					},
+					"pipelineMySqlDbTableName": {
+						"type": "String"
+					},
+					"pipelineMySqlServerName": {
+						"type": "String"
+					},
+					"pipelineMySqlDbName": {
+						"type": "String"
+					},
+					"pipelineMySqlUserName": {
+						"type": "String"
+					},
+					"pipelineMySqlPassword": {
+						"type": "String"
+					},
+					"pipelineMultipleTablesStorageName": {
+						"type": "Array"
 					}
 				},
 				"annotations": []
