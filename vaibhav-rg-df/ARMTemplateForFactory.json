@@ -464,14 +464,6 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "$['attributes']"
-										},
-										"sink": {
-											"name": "attributes"
-										}
-									},
-									{
-										"source": {
 											"path": "$['type']"
 										},
 										"sink": {
@@ -576,8 +568,18 @@
 											"name": "topTag",
 											"type": "String"
 										}
+									},
+									{
+										"source": {
+											"path": "$['attributes']"
+										},
+										"sink": {
+											"name": "attributes"
+										}
 									}
-								]
+								],
+								"collectionReference": "",
+								"mapComplexValuesToString": true
 							}
 						},
 						"inputs": [
