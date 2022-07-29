@@ -86,20 +86,17 @@
 				"defaultValue": "equipment"
 			},
 			"pipelineMySqlServerName": {
-				"type": "String",
-				"defaultValue": "vaibhav-adf-mysql-server.mysql.database.azure.com"
+				"type": "String"
 			},
 			"pipelineMySqlDbName": {
 				"type": "String",
 				"defaultValue": "dump"
 			},
 			"pipelineMySqlUserName": {
-				"type": "String",
-				"defaultValue": "vaibhav@vaibhav-adf-mysql-server"
+				"type": "String"
 			},
 			"pipelineMySqlPassword": {
-				"type": "String",
-				"defaultValue": "Test1234"
+				"type": "String"
 			}
 		},
 		"annotations": []
