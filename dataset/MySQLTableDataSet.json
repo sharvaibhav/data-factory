@@ -25,19 +25,24 @@
 		},
 		"parameters": {
 			"datasetMySQLDbTableName": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "equipment"
 			},
 			"datasetMySqlServerName": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "vaibhav-adf-mysql-server.mysql.database.azure.com"
 			},
 			"datasetMySqlDBName": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "dump"
 			},
 			"datasetMySQLUserName": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "vaibhav@vaibhav-adf-mysql-server"
 			},
 			"datasetMySQLPassword": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "Test1234"
 			}
 		},
 		"annotations": [],
