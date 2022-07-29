@@ -3,7 +3,153 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Move Table to MySql",
+				"name": "Move Equipment Table to MySql Table",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureTableSource",
+						"azureTableSourceIgnoreTableNotFound": false
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TableStorageDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.pipelineTableStorageName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "MySQLTableDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"datasetMySQLDbTableName": {
+								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
+								"type": "Expression"
+							},
+							"datasetMySqlServerName": {
+								"value": "@pipeline().parameters.pipelineMySqlServerName",
+								"type": "Expression"
+							},
+							"datasetMySqlDBName": {
+								"value": "@pipeline().parameters.pipelineMySqlDbName",
+								"type": "Expression"
+							},
+							"datasetMySQLUserName": {
+								"value": "@pipeline().parameters.pipelineMySqlUserName",
+								"type": "Expression"
+							},
+							"datasetMySQLPassword": {
+								"value": "@pipeline().parameters.pipelineMySqlPassword",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Move Area Table to MySql Table",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureTableSource",
+						"azureTableSourceIgnoreTableNotFound": false
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "TableStorageDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableStorageName": {
+								"value": "@pipeline().parameters.pipelineTableStorageName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "MySQLTableDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"datasetMySQLDbTableName": {
+								"value": "@pipeline().parameters.pipelineMySqlDbTableName",
+								"type": "Expression"
+							},
+							"datasetMySqlServerName": {
+								"value": "@pipeline().parameters.pipelineMySqlServerName",
+								"type": "Expression"
+							},
+							"datasetMySqlDBName": {
+								"value": "@pipeline().parameters.pipelineMySqlDbName",
+								"type": "Expression"
+							},
+							"datasetMySQLUserName": {
+								"value": "@pipeline().parameters.pipelineMySqlUserName",
+								"type": "Expression"
+							},
+							"datasetMySQLPassword": {
+								"value": "@pipeline().parameters.pipelineMySqlPassword",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Move System Table to MySql Table",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -77,11 +223,11 @@
 			}
 		],
 		"parameters": {
-			"pipelineTableStorageName": {
+			"pipelineTableStorageNameEquipment": {
 				"type": "String",
 				"defaultValue": "equipments"
 			},
-			"pipelineMySqlDbTableName": {
+			"pipelineMySqlDbTableNameEquipment": {
 				"type": "String",
 				"defaultValue": "equipment"
 			},
@@ -100,6 +246,22 @@
 			"pipelineMySqlPassword": {
 				"type": "String",
 				"defaultValue": "Test1234"
+			},
+			"pipelineTableStorageNameSystem": {
+				"type": "string",
+				"defaultValue": "system"
+			},
+			"pipelineMySqlDbTableNameSystem": {
+				"type": "string",
+				"defaultValue": "system"
+			},
+			"pipelineTableStorageNameArea": {
+				"type": "string",
+				"defaultValue": "area"
+			},
+			"pipelineMySqlDbTableNameArea": {
+				"type": "string",
+				"defaultValue": "area"
 			}
 		},
 		"annotations": []
