@@ -54,9 +54,21 @@
 			}
 		],
 		"parameters": {
-			"PipelineBlobSourceFileName": {
+			"PipelineBlobSourceFileNameArea": {
 				"type": "string",
 				"defaultValue": "johancastberg-area-data.json"
+			},
+			"PipelineBlobSourceFileNameSystem": {
+				"type": "string",
+				"defaultValue": "johancastberg-system-data.json"
+			},
+			"PipelineBlobSourceFileNameEquipment": {
+				"type": "string",
+				"defaultValue": "johancastberg-equipments-data.json"
+			},
+			"PipelineBlobSourceFileNameDiscipline": {
+				"type": "string",
+				"defaultValue": "johancastberg-discipline-data.json"
 			}
 		},
 		"annotations": []
