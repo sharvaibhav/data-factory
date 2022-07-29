@@ -26,11 +26,28 @@
 							"type": "JsonReadSettings"
 						}
 					},
+					"sink": {
+						"type": "AzureTableSink",
+						"azureTableInsertType": "merge",
+						"writeBatchSize": 10000
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"BlobSourceFileName": {
+								"value": "@pipeline().parameters.PipelineBlobSourceFileName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "TableStorageDataSet",
 						"type": "DatasetReference"
 					}
 				]
@@ -38,8 +55,7 @@
 		],
 		"parameters": {
 			"PipelineBlobSourceFileName": {
-				"type": "array",
-				"defaultValue": "johancastberg-area-data.json,johancastberg-discipline-data.json,johancastberg-equipments-data.json,johancastberg-system-data.json"
+				"type": "string"
 			}
 		},
 		"annotations": []
