@@ -7,21 +7,21 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "vaibhav-rg-df"
 		},
-		"loggingservice_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
-		},
 		"BlobLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'BlobLinkedService'"
+		},
+		"MySqlLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'MySqlLinkedService'"
 		},
 		"TableLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'TableLinkedService'"
 		},
-		"MySqlLinkedService_connectionString": {
+		"loggingservice_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'MySqlLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
 		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
 			"type": "string",
@@ -37,19 +37,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/loggingservice')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('loggingservice_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/BlobLinkedService')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -58,19 +45,6 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('BlobLinkedService_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TableLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureTableStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('TableLinkedService_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -103,59 +77,30 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SourceBlobDataSet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/TableLinkedService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "BlobLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"BlobSourceFileName": {
-						"type": "array"
-					}
-				},
 				"annotations": [],
-				"type": "Json",
+				"type": "AzureTableStorage",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().BlobSourceFileName",
-							"type": "Expression"
-						},
-						"container": "source"
-					}
-				},
-				"schema": {}
+					"connectionString": "[parameters('TableLinkedService_connectionString')]"
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/BlobLinkedService')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkBlobDataSet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/loggingservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "BlobLinkedService",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "Json",
+				"type": "AzureBlobStorage",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "sink"
-					}
-				},
-				"schema": {}
+					"connectionString": "[parameters('loggingservice_connectionString')]"
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/BlobLinkedService')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/MySQLTableDataSet')]",
@@ -186,19 +131,24 @@
 				},
 				"parameters": {
 					"datasetMySQLDbTableName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "equipment"
 					},
 					"datasetMySqlServerName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "vaibhav-adf-mysql-server.mysql.database.azure.com"
 					},
 					"datasetMySqlDBName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "dump"
 					},
 					"datasetMySQLUserName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "vaibhav@vaibhav-adf-mysql-server"
 					},
 					"datasetMySQLPassword": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "Test1234"
 					}
 				},
 				"annotations": [],
@@ -213,6 +163,61 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/MySqlLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkBlobDataSet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "sink"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceBlobDataSet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"BlobSourceFileName": {
+						"type": "array"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().BlobSourceFileName",
+							"type": "Expression"
+						},
+						"container": "source"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobLinkedService')]"
 			]
 		},
 		{
@@ -414,32 +419,26 @@
 					"cancelAfter": {}
 				},
 				"parameters": {
-					"TableStorageToMySQLTablePipelineTableStorageParam": {
-						"type": "String"
-					},
-					"TableStorageToMySQLTablePipelineMYSqlTableNameParam": {
-						"type": "String"
-					},
 					"pipelineTableStorageName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "equipment"
 					},
 					"pipelineMySqlDbTableName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "equipment"
 					},
 					"pipelineMySqlServerName": {
 						"type": "String"
 					},
 					"pipelineMySqlDbName": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "dump"
 					},
 					"pipelineMySqlUserName": {
 						"type": "String"
 					},
 					"pipelineMySqlPassword": {
 						"type": "String"
-					},
-					"pipelineMultipleTablesStorageName": {
-						"type": "Array"
 					}
 				},
 				"annotations": []

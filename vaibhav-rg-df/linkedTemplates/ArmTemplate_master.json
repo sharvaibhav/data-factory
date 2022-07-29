@@ -7,21 +7,21 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "vaibhav-rg-df"
 		},
-		"loggingservice_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
-		},
 		"BlobLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'BlobLinkedService'"
+		},
+		"MySqlLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'MySqlLinkedService'"
 		},
 		"TableLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'TableLinkedService'"
 		},
-		"MySqlLinkedService_connectionString": {
+		"loggingservice_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'MySqlLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
 		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
 			"type": "string",
@@ -58,17 +58,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"loggingservice_connectionString": {
-						"value": "[parameters('loggingservice_connectionString')]"
-					},
 					"BlobLinkedService_connectionString": {
 						"value": "[parameters('BlobLinkedService_connectionString')]"
+					},
+					"MySqlLinkedService_connectionString": {
+						"value": "[parameters('MySqlLinkedService_connectionString')]"
 					},
 					"TableLinkedService_connectionString": {
 						"value": "[parameters('TableLinkedService_connectionString')]"
 					},
-					"MySqlLinkedService_connectionString": {
-						"value": "[parameters('MySqlLinkedService_connectionString')]"
+					"loggingservice_connectionString": {
+						"value": "[parameters('loggingservice_connectionString')]"
 					},
 					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName": {
 						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSourceName')]"
