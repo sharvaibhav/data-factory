@@ -48,7 +48,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"BlobSourceFileName": {
-								"value": "@pipeline().parameters.BlobDataMovementPipelineSourceName",
+								"value": "@pipeline().parameters.BlobDataMovementPipelineSinkFileName",
 								"type": "Expression"
 							}
 						}
