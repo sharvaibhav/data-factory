@@ -1,0 +1,23 @@
+{
+	"name": "TableStorageDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TableLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TableStorageName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": {
+				"value": "@dataset().TableStorageName",
+				"type": "Expression"
+			}
+		}
+	}
+}
