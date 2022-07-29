@@ -149,7 +149,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['attributes'][0]['id']"
+									"path": "$['attributes']"
 								},
 								"sink": {
 									"name": "attributes"
@@ -184,7 +184,7 @@
 							},
 							{
 								"source": {
-									"path": "$['relations'][0]['id']"
+									"path": "$['relations']"
 								},
 								"sink": {
 									"name": "relations"
