@@ -1,6 +1,0 @@
-{
-	"name": "SourceMySQLTablesToSinkMYSQLTablesMovementPipeline",
-	"properties": {
-		"annotations": []
-	}
-}
