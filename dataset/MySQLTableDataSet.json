@@ -3,10 +3,40 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "MySqlLinkedService",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"MySqlServerName": {
+					"value": "@dataset().PipelineMySqlServerName",
+					"type": "Expression"
+				},
+				"MySqlDBName": {
+					"value": "@dataset().PipelineMySqlDBName",
+					"type": "Expression"
+				},
+				"MySQLUserName": {
+					"value": "@dataset().PipelineMySQLUserName",
+					"type": "Expression"
+				},
+				"MySQLPassword": {
+					"value": "@dataset().PipelineMySQLPassword",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"MySQLDbTableName": {
+				"type": "String"
+			},
+			"PipelineMySqlServerName": {
+				"type": "String"
+			},
+			"PipelineMySqlDBName": {
+				"type": "String"
+			},
+			"PipelineMySQLUserName": {
+				"type": "String"
+			},
+			"PipelineMySQLPassword": {
 				"type": "String"
 			}
 		},
