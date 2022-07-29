@@ -8,9 +8,6 @@
 		"parameters": {
 			"TableStorageName": {
 				"type": "String"
-			},
-			"MultipleTablesStorageName": {
-				"type": "array"
 			}
 		},
 		"annotations": [],
