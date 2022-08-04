@@ -26,9 +26,16 @@
 								"BlobSourceFileName": "johancastberg-equipments-data.json"
 							},
 							"JoinedJsonEquipmentAndArea": {
-								"joinedFileSync": "joined-equipment-area"
+								"joinedFileSync": "joined-equipment-area.json"
 							}
 						}
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "loggingservice",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "copyactivity-logs"
 					},
 					"integrationRuntime": {
 						"referenceName": "LargeIntegrationRuntime",
