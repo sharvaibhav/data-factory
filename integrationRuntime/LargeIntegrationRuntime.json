@@ -6,8 +6,8 @@
 			"computeProperties": {
 				"location": "AutoResolve",
 				"dataFlowProperties": {
-					"computeType": "MemoryOptimized",
-					"coreCount": 32,
+					"computeType": "General",
+					"coreCount": 8,
 					"timeToLive": 10,
 					"cleanup": false
 				}
