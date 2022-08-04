@@ -39,6 +39,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"test": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
