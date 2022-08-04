@@ -26,6 +26,17 @@
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"type": "string",
 			"defaultValue": "NA"
+		},
+		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"type": "string",
+			"defaultValue": "vaibhav-test.database.windows.net"
+		},
+		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"type": "string",
+			"defaultValue": "vaibhav"
+		},
+		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"type": "secureString"
 		}
 	},
 	"variables": {
@@ -312,7 +323,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/BlobToTableMovement')]",
+			"name": "[concat(parameters('factoryName'), '/BlobToTableToMySqlTablesMovement')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1442,6 +1453,94 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/testEquipmentAreaPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "EquipmentAreaDataFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "equipmentAndAreaDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Area": {
+										"BlobSourceFileName": "johancastberg-area-data.json"
+									},
+									"Equipment": {
+										"BlobSourceFileName": "johancastberg-equipments-data.json"
+									},
+									"JoinedJsonEquipmentAndArea": {
+										"joinedFileSync": "joined-equipment-area"
+									}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "LargeIntegrationRuntime",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Coarse",
+							"runConcurrently": true
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/equipmentAndAreaDataFlow')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/LargeIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JoinedSinkBlobStorage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "BlobLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"joinedFileSync": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().joinedFileSync",
+							"type": "Expression"
+						},
+						"container": "sink"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/BlobLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MySQLTableDataSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1538,7 +1637,7 @@
 				},
 				"parameters": {
 					"BlobSourceFileName": {
-						"type": "array"
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -1691,6 +1790,156 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/BlobDataMovementPipeline')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LargeIntegrationRuntime')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "MemoryOptimized",
+							"coreCount": 32,
+							"timeToLive": 10,
+							"cleanup": false
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SSISIR')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "Managed",
+				"description": "testing ssisIR",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "West Europe",
+						"nodeSize": "Standard_D2_v3",
+						"numberOfNodes": 2,
+						"maxParallelExecutionsPerNode": 2
+					},
+					"ssisProperties": {
+						"catalogInfo": {
+							"catalogServerEndpoint": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
+							"catalogAdminUserName": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]",
+							"catalogAdminPassword": {
+								"type": "SecureString",
+								"value": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
+							},
+							"catalogPricingTier": "S1"
+						},
+						"edition": "Standard",
+						"licenseType": "LicenseIncluded"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/equipmentAndAreaDataFlow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference"
+							},
+							"name": "Area"
+						},
+						{
+							"dataset": {
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference"
+							},
+							"name": "Equipment"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "JoinedSinkBlobStorage",
+								"type": "DatasetReference"
+							},
+							"name": "JoinedJsonEquipmentAndArea"
+						}
+					],
+					"transformations": [
+						{
+							"name": "EquipmentToAreaJoin"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          areaCode as string,",
+						"          description as string,",
+						"          ext_id as string,",
+						"          fabricationContractor as string,",
+						"          facility as string,",
+						"          id as string,",
+						"          locationType as string,",
+						"          project as string,",
+						"          systemFullName as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine',",
+						"     partitionBy('hash', 1)) ~> Area",
+						"source(output(",
+						"          area as string,",
+						"          attributes as (id as string)[],",
+						"          description as string,",
+						"          discipline as string,",
+						"          facility as string,",
+						"          id as string,",
+						"          processLine as string,",
+						"          procurementPackage as string,",
+						"          relations as (id as string)[],",
+						"          system as string,",
+						"          tagNumber as string,",
+						"          topTag as string,",
+						"          type as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine',",
+						"     partitionBy('hash', 1)) ~> Equipment",
+						"Equipment, Area join(area == Area@id,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     partitionBy('hash', 1),",
+						"     broadcast: 'auto')~> EquipmentToAreaJoin",
+						"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          {Equipment Description} = Equipment@description,",
+						"          tagNumber,",
+						"          areaCode,",
+						"          {Area Description} = Area@description,",
+						"          project",
+						"     )) ~> JoinedJsonEquipmentAndArea"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceBlobDataSet')]",
+				"[concat(variables('factoryId'), '/datasets/JoinedSinkBlobStorage')]"
 			]
 		}
 	]
