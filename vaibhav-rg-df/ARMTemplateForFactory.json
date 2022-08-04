@@ -1474,12 +1474,7 @@
 							"dataflow": {
 								"referenceName": "equipmentAndAreaDataFlow",
 								"type": "DataFlowReference",
-								"parameters": {
-									"outputFileName": {
-										"value": "'@{pipeline().parameters.test}'",
-										"type": "Expression"
-									}
-								},
+								"parameters": {},
 								"datasetParameters": {
 									"Area": {
 										"BlobSourceFileName": "johancastberg-area-data.json"
@@ -1890,9 +1885,6 @@
 						}
 					],
 					"scriptLines": [
-						"parameters{",
-						"     outputFileName as string",
-						"}",
 						"source(output(",
 						"          areaCode as string,",
 						"          description as string,",
@@ -1937,7 +1929,7 @@
 						"     broadcast: 'auto')~> EquipmentToAreaJoin",
 						"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     partitionFileNames:[($outputFileName)],",
+						"     partitionFileNames:['final.json'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
