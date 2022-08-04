@@ -1,0 +1,50 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "johancastberg-area-data.json",
+				"container": "source"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"ext_id": {
+					"type": "string"
+				},
+				"areaCode": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				},
+				"systemFullName": {
+					"type": "string"
+				},
+				"locationType": {
+					"type": "string"
+				},
+				"fabricationContractor": {
+					"type": "string"
+				},
+				"project": {
+					"type": "string"
+				},
+				"facility": {
+					"type": "string"
+				},
+				"id": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
