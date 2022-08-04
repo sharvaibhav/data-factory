@@ -1474,7 +1474,12 @@
 							"dataflow": {
 								"referenceName": "equipmentAndAreaDataFlow",
 								"type": "DataFlowReference",
-								"parameters": {},
+								"parameters": {
+									"outputFileName": {
+										"value": "'@{pipeline().parameters.test}'",
+										"type": "Expression"
+									}
+								},
 								"datasetParameters": {
 									"Area": {
 										"BlobSourceFileName": "johancastberg-area-data.json"
@@ -1483,11 +1488,14 @@
 										"BlobSourceFileName": "johancastberg-equipments-data.json"
 									},
 									"JoinedJsonEquipmentAndArea": {
-										"joinedFileSync": "joined-equipment-area"
+										"joinedFileSync": "joined-equipment-area.json"
 									}
-								}
+								},
+								"linkedServiceParameters": {}
 							},
-							"staging": {},
+							"staging": {
+								"folderPath": "copyactivity-logs"
+							},
 							"integrationRuntime": {
 								"referenceName": "LargeIntegrationRuntime",
 								"type": "IntegrationRuntimeReference"
@@ -1500,6 +1508,11 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"parameters": {
+					"test": {
+						"type": "string"
+					}
 				},
 				"annotations": []
 			},
@@ -1527,10 +1540,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().joinedFileSync",
-							"type": "Expression"
-						},
 						"container": "sink"
 					}
 				},
@@ -1881,6 +1890,9 @@
 						}
 					],
 					"scriptLines": [
+						"parameters{",
+						"     outputFileName as string",
+						"}",
 						"source(output(",
 						"          areaCode as string,",
 						"          description as string,",
@@ -1925,6 +1937,7 @@
 						"     broadcast: 'auto')~> EquipmentToAreaJoin",
 						"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:[($outputFileName)],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
@@ -1933,7 +1946,8 @@
 						"          areaCode,",
 						"          {Area Description} = Area@description,",
 						"          project",
-						"     )) ~> JoinedJsonEquipmentAndArea"
+						"     ),",
+						"     partitionBy('hash', 1)) ~> JoinedJsonEquipmentAndArea"
 					]
 				}
 			},
