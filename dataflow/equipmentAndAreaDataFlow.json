@@ -34,6 +34,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     outputFileName as string",
+				"}",
 				"source(output(",
 				"          areaCode as string,",
 				"          description as string,",
@@ -78,6 +81,7 @@
 				"     broadcast: 'auto')~> EquipmentToAreaJoin",
 				"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:[($outputFileName)],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
@@ -86,7 +90,8 @@
 				"          areaCode,",
 				"          {Area Description} = Area@description,",
 				"          project",
-				"     )) ~> JoinedJsonEquipmentAndArea"
+				"     ),",
+				"     partitionBy('hash', 1)) ~> JoinedJsonEquipmentAndArea"
 			]
 		}
 	}
