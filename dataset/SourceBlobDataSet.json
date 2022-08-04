@@ -7,7 +7,7 @@
 		},
 		"parameters": {
 			"BlobSourceFileName": {
-				"type": "array"
+				"type": "string"
 			}
 		},
 		"annotations": [],
