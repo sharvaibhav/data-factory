@@ -67,7 +67,6 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     limit: 10,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> Equipment",
 				"Equipment, Area join(area == Area@id,",
