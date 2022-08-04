@@ -80,12 +80,11 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
-				"          description = Equipment@description,",
-				"          facility = Equipment@facility,",
-				"          id = Equipment@id,",
+				"          {Equipment Description} = Equipment@description,",
 				"          tagNumber,",
-				"          description = Area@description,",
-				"          facility = Area@facility",
+				"          areaCode,",
+				"          {Area Description} = Area@description,",
+				"          project",
 				"     )) ~> sink1"
 			]
 		}
