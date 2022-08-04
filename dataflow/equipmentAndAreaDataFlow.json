@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SinkBlobDataSet",
+						"referenceName": "JoinedSinkBlobStorage",
 						"type": "DatasetReference"
 					},
 					"name": "JoinedJsonEquipmentAndArea"
