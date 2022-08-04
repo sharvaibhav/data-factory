@@ -18,12 +18,6 @@
 					"dataflow": {
 						"referenceName": "equipmentAndAreaDataFlow",
 						"type": "DataFlowReference",
-						"parameters": {
-							"outputFileName": {
-								"value": "'@{pipeline().parameters.test}'",
-								"type": "Expression"
-							}
-						},
 						"datasetParameters": {
 							"Area": {
 								"BlobSourceFileName": "johancastberg-area-data.json"
