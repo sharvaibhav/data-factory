@@ -17,7 +17,15 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "equipmentAndAreaDataFlow",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"Area": {
+								"BlobSourceFileName": "johancastberg-area-data.json"
+							},
+							"Equipment": {
+								"BlobSourceFileName": "johancastberg-equipments-data.json"
+							}
+						}
 					},
 					"integrationRuntime": {
 						"referenceName": "LargeIntegrationRuntime",
