@@ -24,6 +24,9 @@
 							},
 							"Equipment": {
 								"BlobSourceFileName": "johancastberg-equipments-data.json"
+							},
+							"JoinedJsonEquipmentAndArea": {
+								"joinedFileSync": "joined-equipment-area"
 							}
 						}
 					},
