@@ -19,10 +19,18 @@
 					"name": "Equipment"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SinkBlobDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "EquipmentToAreaJoin"
 				}
 			],
 			"scriptLines": [
@@ -40,7 +48,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> Area",
+				"     documentForm: 'documentPerLine',",
+				"     partitionBy('hash', 1)) ~> Area",
 				"source(output(",
 				"          area as string,",
 				"          attributes as (id as string)[],",
@@ -65,7 +74,19 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1"
+				"     broadcast: 'auto')~> EquipmentToAreaJoin",
+				"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          description = Equipment@description,",
+				"          facility = Equipment@facility,",
+				"          id = Equipment@id,",
+				"          tagNumber,",
+				"          description = Area@description,",
+				"          facility = Area@facility",
+				"     )) ~> sink1"
 			]
 		}
 	}
