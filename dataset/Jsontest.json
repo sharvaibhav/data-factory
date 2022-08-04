@@ -1,0 +1,17 @@
+{
+	"name": "Jsontest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation"
+			}
+		},
+		"schema": {}
+	}
+}

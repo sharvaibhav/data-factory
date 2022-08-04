@@ -6,10 +6,10 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SourceBlobDataSet",
+						"referenceName": "Jsontest",
 						"type": "DatasetReference"
 					},
-					"name": "Equipment"
+					"name": "source1"
 				}
 			],
 			"sinks": [],
@@ -18,8 +18,7 @@
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine',",
-				"     partitionBy('hash', 1)) ~> Equipment"
+				"     documentForm: 'documentPerLine') ~> source1"
 			]
 		}
 	}
