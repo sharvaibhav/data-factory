@@ -6,10 +6,17 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Json1",
+						"referenceName": "SourceBlobDataSet",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "Area"
+				},
+				{
+					"dataset": {
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "Equipment"
 				}
 			],
 			"sinks": [
@@ -23,22 +30,15 @@
 			],
 			"transformations": [],
 			"scriptLines": [
-				"source(output(",
-				"          ext_id as string,",
-				"          areaCode as string,",
-				"          description as string,",
-				"          systemFullName as string,",
-				"          locationType as string,",
-				"          fabricationContractor as string,",
-				"          project as string,",
-				"          facility as string,",
-				"          id as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     documentForm: 'documentPerLine') ~> Area",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> Equipment",
+				"Area sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"
