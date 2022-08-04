@@ -1,6 +1,33 @@
 {
 	"name": "testEquipmentAreaPipeline",
 	"properties": {
+		"activities": [
+			{
+				"name": "EquipmentAreaDataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "equipmentAndAreaDataFlow",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "LargeIntegrationRuntime",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Coarse",
+					"runConcurrently": true
+				}
+			}
+		],
 		"annotations": []
 	}
 }
