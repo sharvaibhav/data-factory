@@ -37,10 +37,6 @@
 						}
 					},
 					"staging": {
-						"linkedService": {
-							"referenceName": "loggingservice",
-							"type": "LinkedServiceReference"
-						},
 						"folderPath": "copyactivity-logs"
 					},
 					"integrationRuntime": {
