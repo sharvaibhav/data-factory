@@ -1,0 +1,26 @@
+{
+	"name": "JoinEquipmentAreaSystemDiscipline",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "equipment"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> equipment"
+			]
+		}
+	}
+}
