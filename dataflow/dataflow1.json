@@ -36,6 +36,7 @@
 				"     documentForm: 'documentPerLine') ~> Area",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     limit: 10,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> Equipment",
 				"Area sink(allowSchemaDrift: true,",
