@@ -74,6 +74,7 @@
 				"     format: 'parquet') ~> StandardTable",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> equipmentJSON",
 				"source(allowSchemaDrift: true,",
