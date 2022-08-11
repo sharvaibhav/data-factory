@@ -26,13 +26,18 @@
 					"name": "StandardTable"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ParquetDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "mysink"
+				}
+			],
 			"transformations": [
 				{
-					"name": "union1"
-				},
-				{
-					"name": "join1"
+					"name": "AreaStandardTable"
 				}
 			],
 			"scriptLines": [
@@ -50,12 +55,16 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> StandardTable",
-				"Area, StandardTable union(byName: false)~> union1",
-				"Equipment, StandardTable join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'inner',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'off')~> join1"
+				"Area, StandardTable union(byName: true,",
+				"     partitionBy('hash', 1))~> AreaStandardTable",
+				"AreaStandardTable sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> mysink"
 			]
 		}
 	}
