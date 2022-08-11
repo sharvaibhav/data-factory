@@ -24,6 +24,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "StandardTable"
+				},
+				{
+					"dataset": {
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "equipmentJSON"
+				},
+				{
+					"dataset": {
+						"referenceName": "SourceBlobDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "AreaJSON"
 				}
 			],
 			"sinks": [
@@ -38,6 +52,9 @@
 			"transformations": [
 				{
 					"name": "AreaStandardTable"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -55,8 +72,21 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> StandardTable",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> equipmentJSON",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> AreaJSON",
 				"Area, StandardTable union(byName: true,",
 				"     partitionBy('hash', 1))~> AreaStandardTable",
+				"AreaJSON, equipmentJSON join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
 				"AreaStandardTable sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
