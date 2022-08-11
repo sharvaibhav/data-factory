@@ -55,6 +55,10 @@
 				},
 				{
 					"name": "join1"
+				},
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
 				}
 			],
 			"scriptLines": [
@@ -82,13 +86,29 @@
 				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> AreaJSON",
-				"Area, StandardTable union(byName: true,",
+				"StandardTable, MapDrifted1 union(byName: true,",
 				"     partitionBy('hash', 1))~> AreaStandardTable",
-				"Area, StandardTable join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"StandardTable, MapDrifted1 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
+				"Area derive(index = toString(byName('index')),",
+				"          bk_area = toString(byName('bk_area')),",
+				"          Owner_SystemUID = toString(byName('Owner_SystemUID')),",
+				"          Facility_SystemUID_UnitTree = toString(byName('Facility_SystemUID_UnitTree')),",
+				"          Facility = toString(byName('Facility')),",
+				"          Project = toString(byName('Project')),",
+				"          Owner_SystemFullName = toString(byName('Owner_SystemFullName')),",
+				"          SystemFullName = toString(byName('SystemFullName')),",
+				"          Owner = toString(byName('Owner')),",
+				"          Facility_SystemUID = toString(byName('Facility_SystemUID')),",
+				"          Name = toString(byName('Name')),",
+				"          SystemUID = toString(byName('SystemUID')),",
+				"          IsDeleted = toLong(byName('IsDeleted')),",
+				"          Description = toString(byName('Description')),",
+				"          LocationType = toString(byName('LocationType')),",
+				"          FabricationContractor = toString(byName('FabricationContractor'))) ~> MapDrifted1",
 				"AreaStandardTable sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
