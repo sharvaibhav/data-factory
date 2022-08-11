@@ -82,7 +82,7 @@
 				"     documentForm: 'documentPerLine') ~> AreaJSON",
 				"Area, StandardTable union(byName: true,",
 				"     partitionBy('hash', 1))~> AreaStandardTable",
-				"AreaJSON, equipmentJSON join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"equipmentJSON, AreaJSON join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
