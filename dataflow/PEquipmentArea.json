@@ -35,7 +35,11 @@
 					"name": "mysink"
 				},
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "ParquetDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "EquipmentAndAreaSink"
 				}
 			],
 			"transformations": [
@@ -608,8 +612,12 @@
 				"     skipDuplicateMapOutputs: true) ~> mysink",
 				"EquipmentAndAreaJoin sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> EquipmentAndAreaSink"
 			]
 		}
 	}
