@@ -59,6 +59,10 @@
 				{
 					"name": "MapDrifted1",
 					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "standarMap",
+					"description": "Creates an explicit mapping for each drifted column"
 				}
 			],
 			"scriptLines": [
@@ -86,9 +90,9 @@
 				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> AreaJSON",
-				"StandardTable, MapDrifted1 union(byName: true,",
+				"MapDrifted1, standarMap union(byName: true,",
 				"     partitionBy('hash', 1))~> AreaStandardTable",
-				"StandardTable, MapDrifted1 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"MapDrifted1, standarMap join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -109,6 +113,25 @@
 				"          Description = toString(byName('Description')),",
 				"          LocationType = toString(byName('LocationType')),",
 				"          FabricationContractor = toString(byName('FabricationContractor'))) ~> MapDrifted1",
+				"StandardTable derive(index = toString(byName('index')),",
+				"          Value7 = toString(byName('Value7')),",
+				"          TableSystemUID = toString(byName('TableSystemUID')),",
+				"          SystemUID = toString(byName('SystemUID')),",
+				"          Value8 = toString(byName('Value8')),",
+				"          projectId = toString(byName('projectId')),",
+				"          Value9 = toString(byName('Value9')),",
+				"          Project = toString(byName('Project')),",
+				"          Value1 = toString(byName('Value1')),",
+				"          TableName = toString(byName('TableName')),",
+				"          Value4 = toString(byName('Value4')),",
+				"          Name = toString(byName('Name')),",
+				"          Description = toString(byName('Description')),",
+				"          TableDescription = toString(byName('TableDescription')),",
+				"          Value5 = toString(byName('Value5')),",
+				"          Value10 = toString(byName('Value10')),",
+				"          Value2 = toString(byName('Value2')),",
+				"          Value3 = toString(byName('Value3')),",
+				"          Value6 = toString(byName('Value6'))) ~> standarMap",
 				"AreaStandardTable sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
