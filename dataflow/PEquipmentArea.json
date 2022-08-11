@@ -17,6 +17,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "Area"
+				},
+				{
+					"dataset": {
+						"referenceName": "ParquetDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "StandardTable"
 				}
 			],
 			"sinks": [],
@@ -36,7 +43,11 @@
 				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> Area",
-				"Equipment, Area join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> StandardTable",
+				"Area, StandardTable join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
