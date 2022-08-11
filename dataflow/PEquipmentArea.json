@@ -22,7 +22,7 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "EquipmentAndArea"
 				}
 			],
 			"scriptLines": [
@@ -40,7 +40,7 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1"
+				"     broadcast: 'auto')~> EquipmentAndArea"
 			]
 		}
 	}
