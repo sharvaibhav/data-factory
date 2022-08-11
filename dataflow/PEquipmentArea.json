@@ -24,20 +24,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "StandardTable"
-				},
-				{
-					"dataset": {
-						"referenceName": "SourceBlobDataSet",
-						"type": "DatasetReference"
-					},
-					"name": "equipmentJSON"
-				},
-				{
-					"dataset": {
-						"referenceName": "SourceBlobDataSet",
-						"type": "DatasetReference"
-					},
-					"name": "AreaJSON"
 				}
 			],
 			"sinks": [
@@ -567,19 +553,9 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> StandardTable",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     limit: 100,",
-				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> equipmentJSON",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     limit: 100,",
-				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> AreaJSON",
 				"AreaTableMap, standardTableMap union(byName: true,",
 				"     partitionBy('hash', 1))~> AreaStandardTable",
-				"Equipment, standardTableMap join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"Equipment, AreaTableMap join(AreaCode_SystemUID == AreaTableMap@index,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
