@@ -17,8 +17,14 @@
 		"loggingservice_connectionString": {
 			"value": ""
 		},
+		"AzureDataLakeStorageParquet_accountKey": {
+			"value": ""
+		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"value": "NA"
+		},
+		"AzureDataLakeStorageParquet_properties_typeProperties_url": {
+			"value": "https://vaibhavadfgen2.dfs.core.windows.net/"
 		}
 	}
 }

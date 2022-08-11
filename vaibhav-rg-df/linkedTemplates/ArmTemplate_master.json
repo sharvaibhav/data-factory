@@ -23,9 +23,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
 		},
+		"AzureDataLakeStorageParquet_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageParquet'"
+		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"type": "string",
 			"defaultValue": "NA"
+		},
+		"AzureDataLakeStorageParquet_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://vaibhavadfgen2.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -65,6 +73,12 @@
 					},
 					"loggingservice_connectionString": {
 						"value": "[parameters('loggingservice_connectionString')]"
+					},
+					"AzureDataLakeStorageParquet_accountKey": {
+						"value": "[parameters('AzureDataLakeStorageParquet_accountKey')]"
+					},
+					"AzureDataLakeStorageParquet_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorageParquet_properties_typeProperties_url')]"
 					},
 					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName')]"
