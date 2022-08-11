@@ -26,17 +26,6 @@
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"type": "string",
 			"defaultValue": "NA"
-		},
-		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "vaibhav-test.database.windows.net"
-		},
-		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"type": "string",
-			"defaultValue": "vaibhav"
-		},
-		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"type": "secureString"
 		}
 	},
 	"variables": {
@@ -1453,70 +1442,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/testEquipmentAreaPipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "EquipmentAreaDataFlow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "equipmentAndAreaDataFlow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Area": {
-										"BlobSourceFileName": "johancastberg-area-data.json"
-									},
-									"Equipment": {
-										"BlobSourceFileName": "johancastberg-equipments-data.json"
-									},
-									"JoinedJsonEquipmentAndArea": {
-										"joinedFileSync": "joined-equipment-area.json"
-									}
-								},
-								"linkedServiceParameters": {}
-							},
-							"staging": {
-								"folderPath": "copyactivity-logs"
-							},
-							"integrationRuntime": {
-								"referenceName": "LargeIntegrationRuntime",
-								"type": "IntegrationRuntimeReference"
-							},
-							"traceLevel": "Coarse",
-							"runConcurrently": true
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"test": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/equipmentAndAreaDataFlow')]",
-				"[concat(variables('factoryId'), '/integrationRuntimes/LargeIntegrationRuntime')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/JoinedSinkBlobStorage')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1806,42 +1731,11 @@
 					"computeProperties": {
 						"location": "AutoResolve",
 						"dataFlowProperties": {
-							"computeType": "MemoryOptimized",
-							"coreCount": 32,
+							"computeType": "General",
+							"coreCount": 8,
 							"timeToLive": 10,
 							"cleanup": false
 						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SSISIR')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"description": "testing ssisIR",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "West Europe",
-						"nodeSize": "Standard_D2_v3",
-						"numberOfNodes": 2,
-						"maxParallelExecutionsPerNode": 2
-					},
-					"ssisProperties": {
-						"catalogInfo": {
-							"catalogServerEndpoint": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
-							"catalogAdminUserName": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]",
-							"catalogAdminPassword": {
-								"type": "SecureString",
-								"value": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
-							},
-							"catalogPricingTier": "S1"
-						},
-						"edition": "Standard",
-						"licenseType": "LicenseIncluded"
 					}
 				}
 			},

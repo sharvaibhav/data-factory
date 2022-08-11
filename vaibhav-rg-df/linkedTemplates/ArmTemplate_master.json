@@ -27,17 +27,6 @@
 			"type": "string",
 			"defaultValue": "NA"
 		},
-		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "vaibhav-test.database.windows.net"
-		},
-		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"type": "string",
-			"defaultValue": "vaibhav"
-		},
-		"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"type": "secureString"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -76,15 +65,6 @@
 					},
 					"loggingservice_connectionString": {
 						"value": "[parameters('loggingservice_connectionString')]"
-					},
-					"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-						"value": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
-					},
-					"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-						"value": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]"
-					},
-					"SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-						"value": "[parameters('SSISIR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
 					},
 					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName')]"
