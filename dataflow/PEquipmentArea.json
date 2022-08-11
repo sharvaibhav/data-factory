@@ -78,6 +78,7 @@
 				"     documentForm: 'documentPerLine') ~> equipmentJSON",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> AreaJSON",
 				"Area, StandardTable union(byName: true,",
