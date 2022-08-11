@@ -57,7 +57,7 @@
 					"name": "join1"
 				},
 				{
-					"name": "AreaMap",
+					"name": "AreaTableMap",
 					"description": "Creates an explicit mapping for each drifted column"
 				},
 				{
@@ -577,7 +577,7 @@
 				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> AreaJSON",
-				"AreaMap, standardTableMap union(byName: true,",
+				"AreaTableMap, standardTableMap union(byName: true,",
 				"     partitionBy('hash', 1))~> AreaStandardTable",
 				"Equipment, standardTableMap join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
@@ -599,7 +599,7 @@
 				"          IsDeleted = toLong(byName('IsDeleted')),",
 				"          Description = toString(byName('Description')),",
 				"          LocationType = toString(byName('LocationType')),",
-				"          FabricationContractor = toString(byName('FabricationContractor'))) ~> AreaMap",
+				"          FabricationContractor = toString(byName('FabricationContractor'))) ~> AreaTableMap",
 				"StandardTable derive(index = toString(byName('index')),",
 				"          Value7 = toString(byName('Value7')),",
 				"          TableSystemUID = toString(byName('TableSystemUID')),",
