@@ -1,5 +1,5 @@
 {
-	"name": "P-Equipment-Area",
+	"name": "PEquipmentArea",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
