@@ -33,6 +33,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "mysink"
+				},
+				{
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -40,7 +43,7 @@
 					"name": "AreaStandardTable"
 				},
 				{
-					"name": "join1"
+					"name": "EquipmentAndAreaJoin"
 				},
 				{
 					"name": "AreaTableMap",
@@ -559,7 +562,7 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
+				"     broadcast: 'auto')~> EquipmentAndAreaJoin",
 				"Area derive(index = toString(byName('index')),",
 				"          bk_area = toString(byName('bk_area')),",
 				"          Owner_SystemUID = toString(byName('Owner_SystemUID')),",
@@ -602,7 +605,11 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> mysink"
+				"     skipDuplicateMapOutputs: true) ~> mysink",
+				"EquipmentAndAreaJoin sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
