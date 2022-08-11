@@ -13,7 +13,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"fileNameParquet": {
-								"value": "@pipeline().parameters.parquetSourceFile",
+								"value": "@pipeline().parameters.EquipmentParquetFilePath",
 								"type": "Expression"
 							}
 						}
@@ -33,7 +33,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"fileNameParquet": {
-								"value": "@pipeline().parameters.parquetSourceFile",
+								"value": "@pipeline().parameters.AreaParquetFilePath",
 								"type": "Expression"
 							}
 						}
@@ -41,6 +41,32 @@
 					"timeout": "7.00:00:00",
 					"sleep": 10
 				}
+			},
+			{
+				"name": "Notebook1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "EquipmentParquet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "AreaParquet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"parameters": {
