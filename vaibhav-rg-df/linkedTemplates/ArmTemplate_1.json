@@ -6,6 +6,10 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "vaibhav-rg-df"
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+			"type": "string",
+			"defaultValue": "NA"
 		}
 	},
 	"variables": {
@@ -13,215 +17,40 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/BlobMovementPipelineTrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
 					{
-						"name": "EquipmentParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.EquipmentParquetFilePath",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "AreaParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.AreaParquetFilePath",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "JoinEquipmentArea",
-						"type": "DatabricksNotebook",
-						"dependsOn": [
-							{
-								"activity": "EquipmentParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "AreaParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "standardToDiscipline",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "SystemParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "ProcurementPackageparquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
+						"pipelineReference": {
+							"referenceName": "BlobDataMovementPipeline",
+							"type": "PipelineReference"
 						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
-							"baseParameters": {
-								"EquipmentFile": {
-									"value": "@pipeline().parameters.EquipmentParquetFilePath",
-									"type": "Expression"
-								},
-								"AreaFile": {
-									"value": "@pipeline().parameters.AreaParquetFilePath",
-									"type": "Expression"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "DataBrics",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "ProcurementPackageparquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.ProcPackageParquet",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "SystemParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.SystemParquet",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "standardToDiscipline",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "standardToDiscipline",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"standardTable": {
-										"fileNameParquet": "comos_standardtable.parquet"
-									},
-									"DisciplineParquet": {
-										"fileNameParquet": "comos_discipline.parquet"
-									}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
+						"parameters": {
+							"BlobDataMovementPipelineSinkFileName": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName')]"
 						}
 					}
 				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"EquipmentParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_tag.parquet"
-					},
-					"AreaParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_area.parquet"
-					},
-					"standardTableParquet": {
-						"type": "String",
-						"defaultValue": "comos_standardtable.parquet"
-					},
-					"disciplineFileParquet": {
-						"type": "String"
-					},
-					"ProcPackageParquet": {
-						"type": "String"
-					},
-					"SystemParquet": {
-						"type": "String"
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2022-07-29T13:39:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								22
+							]
+						}
 					}
-				},
-				"annotations": []
+				}
 			},
 			"dependsOn": []
 		}

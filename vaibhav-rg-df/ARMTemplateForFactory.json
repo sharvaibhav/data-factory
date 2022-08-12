@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "vaibhav-rg-df"
 		},
+		"AzureDataLakeStorageParquet_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageParquet'"
+		},
 		"BlobLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'BlobLinkedService'"
+		},
+		"DataBrics_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'DataBrics'"
 		},
 		"MySqlLinkedService_connectionString": {
 			"type": "secureString",
@@ -23,18 +31,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
 		},
-		"AzureDataLakeStorageParquet_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageParquet'"
-		},
-		"DataBrics_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'DataBrics'"
-		},
-		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
-			"type": "string",
-			"defaultValue": "NA"
-		},
 		"AzureDataLakeStorageParquet_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://vaibhavadfgen2.dfs.core.windows.net/"
@@ -42,6 +38,10 @@
 		"DataBrics_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "0811-223959-y590ajt6"
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+			"type": "string",
+			"defaultValue": "NA"
 		}
 	},
 	"variables": {
@@ -1179,6 +1179,242 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "EquipmentParquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.EquipmentParquetFilePath",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "AreaParquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.AreaParquetFilePath",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "JoinEquipmentArea",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "EquipmentParquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "AreaParquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "standardToDiscipline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "SystemParquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ProcurementPackageparquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
+							"baseParameters": {
+								"EquipmentFile": {
+									"value": "@pipeline().parameters.EquipmentParquetFilePath",
+									"type": "Expression"
+								},
+								"AreaFile": {
+									"value": "@pipeline().parameters.AreaParquetFilePath",
+									"type": "Expression"
+								},
+								"StorageAccountName": {
+									"value": "@pipeline().parameters.StorageAccountName",
+									"type": "Expression"
+								},
+								"SystemFile": {
+									"value": "@pipeline().parameters.SystemParquet",
+									"type": "Expression"
+								},
+								"DisciplineFile": {
+									"value": "@pipeline().parameters.disciplineFileParquet",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DataBrics",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ProcurementPackageparquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.ProcPackageParquet",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "SystemParquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.SystemParquet",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "standardToDiscipline",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "standardToDiscipline",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"standardTable": {
+										"fileNameParquet": "comos_standardtable.parquet"
+									},
+									"DisciplineParquet": {
+										"fileNameParquet": "comos_discipline.parquet"
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"EquipmentParquetFilePath": {
+						"type": "string",
+						"defaultValue": "comos_tag.parquet"
+					},
+					"AreaParquetFilePath": {
+						"type": "string",
+						"defaultValue": "comos_area.parquet"
+					},
+					"standardTableParquet": {
+						"type": "String",
+						"defaultValue": "comos_standardtable.parquet"
+					},
+					"disciplineFileParquet": {
+						"type": "String",
+						"defaultValue": "comos_discipline.parquet"
+					},
+					"ProcPackageParquet": {
+						"type": "String",
+						"defaultValue": "comos_procurementpackage.parquet"
+					},
+					"SystemParquet": {
+						"type": "String",
+						"defaultValue": "comos_system.parquet"
+					},
+					"StorageAccountName": {
+						"type": "String",
+						"defaultValue": "vaibhavadfgen2"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParquetDataSet')]",
+				"[concat(variables('factoryId'), '/linkedServices/DataBrics')]",
+				"[concat(variables('factoryId'), '/dataflows/standardToDiscipline')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TableToSourceMYSqlTableMovementPipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1549,6 +1785,40 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ParquetDataSet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageParquet",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"fileNameParquet": {
+						"type": "String",
+						"defaultValue": "equipment.parquet"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().fileNameParquet",
+							"type": "Expression"
+						},
+						"fileSystem": "parquet"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageParquet')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkBlobDataSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1632,6 +1902,23 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageParquet')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorageParquet_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorageParquet_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/BlobLinkedService')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1640,6 +1927,24 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('BlobLinkedService_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataBrics')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-2124816921534772.12.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('DataBrics_accessToken')]"
+					},
+					"existingClusterId": "[parameters('DataBrics_properties_typeProperties_existingClusterId')]"
 				}
 			},
 			"dependsOn": []
@@ -1735,158 +2040,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/BlobDataMovementPipeline')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/equipmentAndAreaDataFlow')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "SourceBlobDataSet",
-								"type": "DatasetReference"
-							},
-							"name": "Area"
-						},
-						{
-							"dataset": {
-								"referenceName": "SourceBlobDataSet",
-								"type": "DatasetReference"
-							},
-							"name": "Equipment"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "JoinedSinkBlobStorage",
-								"type": "DatasetReference"
-							},
-							"name": "JoinedJsonEquipmentAndArea"
-						}
-					],
-					"transformations": [
-						{
-							"name": "EquipmentToAreaJoin"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          areaCode as string,",
-						"          description as string,",
-						"          ext_id as string,",
-						"          fabricationContractor as string,",
-						"          facility as string,",
-						"          id as string,",
-						"          locationType as string,",
-						"          project as string,",
-						"          systemFullName as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine',",
-						"     partitionBy('hash', 1)) ~> Area",
-						"source(output(",
-						"          area as string,",
-						"          attributes as (id as string)[],",
-						"          description as string,",
-						"          discipline as string,",
-						"          facility as string,",
-						"          id as string,",
-						"          processLine as string,",
-						"          procurementPackage as string,",
-						"          relations as (id as string)[],",
-						"          system as string,",
-						"          tagNumber as string,",
-						"          topTag as string,",
-						"          type as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine',",
-						"     partitionBy('hash', 1)) ~> Equipment",
-						"Equipment, Area join(area == Area@id,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     partitionBy('hash', 1),",
-						"     broadcast: 'auto')~> EquipmentToAreaJoin",
-						"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:['final.json'],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     mapColumn(",
-						"          {Equipment Description} = Equipment@description,",
-						"          tagNumber,",
-						"          areaCode,",
-						"          {Area Description} = Area@description,",
-						"          project",
-						"     ),",
-						"     partitionBy('hash', 1)) ~> JoinedJsonEquipmentAndArea"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceBlobDataSet')]",
-				"[concat(variables('factoryId'), '/datasets/JoinedSinkBlobStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageParquet')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorageParquet_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorageParquet_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ParquetDataSet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageParquet",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"fileNameParquet": {
-						"type": "String",
-						"defaultValue": "equipment.parquet"
-					}
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().fileNameParquet",
-							"type": "Expression"
-						},
-						"fileSystem": "parquet"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageParquet')]"
 			]
 		},
 		{
@@ -2519,239 +2672,105 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/equipmentAndAreaDataFlow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "EquipmentParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.EquipmentParquetFilePath",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "AreaParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.AreaParquetFilePath",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "JoinEquipmentArea",
-						"type": "DatabricksNotebook",
-						"dependsOn": [
-							{
-								"activity": "EquipmentParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "AreaParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "standardToDiscipline",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "SystemParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "ProcurementPackageparquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
-							"baseParameters": {
-								"EquipmentFile": {
-									"value": "@pipeline().parameters.EquipmentParquetFilePath",
-									"type": "Expression"
-								},
-								"AreaFile": {
-									"value": "@pipeline().parameters.AreaParquetFilePath",
-									"type": "Expression"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "DataBrics",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "ProcurementPackageparquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.ProcPackageParquet",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "SystemParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.SystemParquet",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "standardToDiscipline",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "standardToDiscipline",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"standardTable": {
-										"fileNameParquet": "comos_standardtable.parquet"
-									},
-									"DisciplineParquet": {
-										"fileNameParquet": "comos_discipline.parquet"
-									}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"EquipmentParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_tag.parquet"
-					},
-					"AreaParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_area.parquet"
-					},
-					"standardTableParquet": {
-						"type": "String",
-						"defaultValue": "comos_standardtable.parquet"
-					},
-					"disciplineFileParquet": {
-						"type": "String"
-					},
-					"ProcPackageParquet": {
-						"type": "String"
-					},
-					"SystemParquet": {
-						"type": "String"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParquetDataSet')]",
-				"[concat(variables('factoryId'), '/linkedServices/DataBrics')]",
-				"[concat(variables('factoryId'), '/dataflows/standardToDiscipline')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DataBrics')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDatabricks",
+				"type": "MappingDataFlow",
 				"typeProperties": {
-					"domain": "https://adb-2124816921534772.12.azuredatabricks.net",
-					"accessToken": {
-						"type": "SecureString",
-						"value": "[parameters('DataBrics_accessToken')]"
-					},
-					"existingClusterId": "[parameters('DataBrics_properties_typeProperties_existingClusterId')]"
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference"
+							},
+							"name": "Area"
+						},
+						{
+							"dataset": {
+								"referenceName": "SourceBlobDataSet",
+								"type": "DatasetReference"
+							},
+							"name": "Equipment"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "JoinedSinkBlobStorage",
+								"type": "DatasetReference"
+							},
+							"name": "JoinedJsonEquipmentAndArea"
+						}
+					],
+					"transformations": [
+						{
+							"name": "EquipmentToAreaJoin"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          areaCode as string,",
+						"          description as string,",
+						"          ext_id as string,",
+						"          fabricationContractor as string,",
+						"          facility as string,",
+						"          id as string,",
+						"          locationType as string,",
+						"          project as string,",
+						"          systemFullName as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine',",
+						"     partitionBy('hash', 1)) ~> Area",
+						"source(output(",
+						"          area as string,",
+						"          attributes as (id as string)[],",
+						"          description as string,",
+						"          discipline as string,",
+						"          facility as string,",
+						"          id as string,",
+						"          processLine as string,",
+						"          procurementPackage as string,",
+						"          relations as (id as string)[],",
+						"          system as string,",
+						"          tagNumber as string,",
+						"          topTag as string,",
+						"          type as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine',",
+						"     partitionBy('hash', 1)) ~> Equipment",
+						"Equipment, Area join(area == Area@id,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     partitionBy('hash', 1),",
+						"     broadcast: 'auto')~> EquipmentToAreaJoin",
+						"EquipmentToAreaJoin sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['final.json'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          {Equipment Description} = Equipment@description,",
+						"          tagNumber,",
+						"          areaCode,",
+						"          {Area Description} = Area@description,",
+						"          project",
+						"     ),",
+						"     partitionBy('hash', 1)) ~> JoinedJsonEquipmentAndArea"
+					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceBlobDataSet')]",
+				"[concat(variables('factoryId'), '/datasets/JoinedSinkBlobStorage')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/standardToDiscipline')]",

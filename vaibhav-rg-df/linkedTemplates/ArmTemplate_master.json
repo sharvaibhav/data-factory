@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "vaibhav-rg-df"
 		},
+		"AzureDataLakeStorageParquet_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageParquet'"
+		},
 		"BlobLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'BlobLinkedService'"
+		},
+		"DataBrics_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'DataBrics'"
 		},
 		"MySqlLinkedService_connectionString": {
 			"type": "secureString",
@@ -23,18 +31,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'loggingservice'"
 		},
-		"AzureDataLakeStorageParquet_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageParquet'"
-		},
-		"DataBrics_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'DataBrics'"
-		},
-		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
-			"type": "string",
-			"defaultValue": "NA"
-		},
 		"AzureDataLakeStorageParquet_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://vaibhavadfgen2.dfs.core.windows.net/"
@@ -42,6 +38,10 @@
 		"DataBrics_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "0811-223959-y590ajt6"
+		},
+		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+			"type": "string",
+			"defaultValue": "NA"
 		},
 		"containerUri": {
 			"type": "string",
@@ -70,8 +70,14 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureDataLakeStorageParquet_accountKey": {
+						"value": "[parameters('AzureDataLakeStorageParquet_accountKey')]"
+					},
 					"BlobLinkedService_connectionString": {
 						"value": "[parameters('BlobLinkedService_connectionString')]"
+					},
+					"DataBrics_accessToken": {
+						"value": "[parameters('DataBrics_accessToken')]"
 					},
 					"MySqlLinkedService_connectionString": {
 						"value": "[parameters('MySqlLinkedService_connectionString')]"
@@ -82,20 +88,11 @@
 					"loggingservice_connectionString": {
 						"value": "[parameters('loggingservice_connectionString')]"
 					},
-					"AzureDataLakeStorageParquet_accountKey": {
-						"value": "[parameters('AzureDataLakeStorageParquet_accountKey')]"
-					},
-					"DataBrics_accessToken": {
-						"value": "[parameters('DataBrics_accessToken')]"
-					},
 					"AzureDataLakeStorageParquet_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageParquet_properties_typeProperties_url')]"
 					},
 					"DataBrics_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('DataBrics_properties_typeProperties_existingClusterId')]"
-					},
-					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
-						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName')]"
 					}
 				}
 			},
@@ -114,6 +111,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
+						"value": "[parameters('BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName')]"
 					}
 				}
 			},
