@@ -88,10 +88,12 @@
 		],
 		"parameters": {
 			"EquipmentParquetFilePath": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "comos_tag.parquet"
 			},
 			"AreaParquetFilePath": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "comos_area.parquet"
 			}
 		},
 		"annotations": []
