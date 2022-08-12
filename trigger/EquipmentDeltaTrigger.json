@@ -1,0 +1,24 @@
+{
+	"name": "EquipmentDeltaTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "parquetDeltas",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/parquetdeltas/blobs/equipment/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/c63acff1-61c0-421d-99ca-ccb211229afe/resourceGroups/Aize-Dev-Vaibhav-RG/providers/Microsoft.Storage/storageAccounts/vaibhavadfgen2",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
