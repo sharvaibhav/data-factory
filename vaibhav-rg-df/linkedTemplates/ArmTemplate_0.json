@@ -1646,114 +1646,77 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/standardToDiscipline')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "EquipmentParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
 							"dataset": {
 								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.EquipmentParquetFilePath",
-										"type": "Expression"
-									}
-								}
+								"type": "DatasetReference"
 							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
+							"name": "standardTable"
 						}
-					},
-					{
-						"name": "AreaParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
+					],
+					"sinks": [
+						{
 							"dataset": {
 								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.AreaParquetFilePath",
-										"type": "Expression"
-									}
-								}
+								"type": "DatasetReference"
 							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
+							"name": "DisciplineParquet"
 						}
-					},
-					{
-						"name": "JoinEquipmentArea",
-						"type": "DatabricksNotebook",
-						"dependsOn": [
-							{
-								"activity": "EquipmentParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "AreaParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
+					],
+					"transformations": [
+						{
+							"name": "MapStandardTable",
+							"description": "Creates an explicit mapping for each drifted column"
 						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebookPath": "Users/vaibhav.sharma@aize.io/test",
-							"baseParameters": {
-								"EquipmentFile": {
-									"value": "@activity('EquipmentParquet').output",
-									"type": "Expression"
-								},
-								"AreaFile": {
-									"value": "@activity('AreaParquet').output",
-									"type": "Expression"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "DataBrics",
-							"type": "LinkedServiceReference"
+						{
+							"name": "DisciplineFilter"
 						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"EquipmentParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_tag.parquet"
-					},
-					"AreaParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_area.parquet"
-					}
-				},
-				"annotations": []
+					],
+					"scriptLines": [
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> standardTable",
+						"standardTable derive(index = toString(byName('index')),",
+						"          Value7 = toString(byName('Value7')),",
+						"          TableSystemUID = toString(byName('TableSystemUID')),",
+						"          SystemUID = toString(byName('SystemUID')),",
+						"          Value8 = toString(byName('Value8')),",
+						"          projectId = toString(byName('projectId')),",
+						"          Value9 = toString(byName('Value9')),",
+						"          Project = toString(byName('Project')),",
+						"          Value1 = toString(byName('Value1')),",
+						"          TableName = toString(byName('TableName')),",
+						"          Value4 = toString(byName('Value4')),",
+						"          Name = toString(byName('Name')),",
+						"          Description = toString(byName('Description')),",
+						"          TableDescription = toString(byName('TableDescription')),",
+						"          Value5 = toString(byName('Value5')),",
+						"          Value10 = toString(byName('Value10')),",
+						"          Value2 = toString(byName('Value2')),",
+						"          Value3 = toString(byName('Value3')),",
+						"          Value6 = toString(byName('Value6'))) ~> MapStandardTable",
+						"MapStandardTable filter(equals(TableName, 'ENG|01|ENGA0454')) ~> DisciplineFilter",
+						"DisciplineFilter sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> DisciplineParquet"
+					]
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParquetDataSet')]",
-				"[concat(variables('factoryId'), '/linkedServices/DataBrics')]"
+				"[concat(variables('factoryId'), '/datasets/ParquetDataSet')]"
 			]
 		},
 		{

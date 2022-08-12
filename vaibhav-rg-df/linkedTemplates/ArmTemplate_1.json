@@ -13,13 +13,154 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow pipeline')]",
+			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Data flow1",
+						"name": "EquipmentParquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.EquipmentParquetFilePath",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "AreaParquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.AreaParquetFilePath",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "JoinEquipmentArea",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "EquipmentParquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "AreaParquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "standardToDiscipline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "SystemParquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ProcurementPackageparquet",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
+							"baseParameters": {
+								"EquipmentFile": {
+									"value": "@pipeline().parameters.EquipmentParquetFilePath",
+									"type": "Expression"
+								},
+								"AreaFile": {
+									"value": "@pipeline().parameters.AreaParquetFilePath",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DataBrics",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ProcurementPackageparquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.ProcPackageParquet",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "SystemParquet",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ParquetDataSet",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileNameParquet": {
+										"value": "@pipeline().parameters.SystemParquet",
+										"type": "Expression"
+									}
+								}
+							},
+							"timeout": "7.00:00:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "standardToDiscipline",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -32,12 +173,16 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "TestingDataFlow",
+								"referenceName": "standardToDiscipline",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"mysqlEquipment": {},
-									"sink1": {}
+									"standardTable": {
+										"fileNameParquet": "comos_standardtable.parquet"
+									},
+									"DisciplineParquet": {
+										"fileNameParquet": "comos_discipline.parquet"
+									}
 								}
 							},
 							"staging": {},
@@ -52,6 +197,29 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"parameters": {
+					"EquipmentParquetFilePath": {
+						"type": "string",
+						"defaultValue": "comos_tag.parquet"
+					},
+					"AreaParquetFilePath": {
+						"type": "string",
+						"defaultValue": "comos_area.parquet"
+					},
+					"standardTableParquet": {
+						"type": "String",
+						"defaultValue": "comos_standardtable.parquet"
+					},
+					"disciplineFileParquet": {
+						"type": "String"
+					},
+					"ProcPackageParquet": {
+						"type": "String"
+					},
+					"SystemParquet": {
+						"type": "String"
+					}
 				},
 				"annotations": []
 			},
