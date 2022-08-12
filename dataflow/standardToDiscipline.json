@@ -12,14 +12,22 @@
 					"name": "standardTable"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ParquetDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
-					"name": "derivedColumn1"
+					"name": "MapStandardTable",
+					"description": "Creates an explicit mapping for each drifted column"
 				},
 				{
-					"name": "MapDrifted1",
-					"description": "Creates an explicit mapping for each drifted column"
+					"name": "DisciplineFilter"
 				}
 			],
 			"scriptLines": [
@@ -27,7 +35,6 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> standardTable",
-				"MapDrifted1 derive() ~> derivedColumn1",
 				"standardTable derive(index = toString(byName('index')),",
 				"          Value7 = toString(byName('Value7')),",
 				"          TableSystemUID = toString(byName('TableSystemUID')),",
@@ -46,7 +53,16 @@
 				"          Value10 = toString(byName('Value10')),",
 				"          Value2 = toString(byName('Value2')),",
 				"          Value3 = toString(byName('Value3')),",
-				"          Value6 = toString(byName('Value6'))) ~> MapDrifted1"
+				"          Value6 = toString(byName('Value6'))) ~> MapStandardTable",
+				"MapStandardTable filter(equals(TableName, 'ENG|01|ENGA0454')) ~> DisciplineFilter",
+				"DisciplineFilter sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
