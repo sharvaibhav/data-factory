@@ -13,12 +13,40 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> standardTable"
+				"     format: 'parquet') ~> standardTable",
+				"MapDrifted1 derive() ~> derivedColumn1",
+				"standardTable derive(index = toString(byName('index')),",
+				"          Value7 = toString(byName('Value7')),",
+				"          TableSystemUID = toString(byName('TableSystemUID')),",
+				"          SystemUID = toString(byName('SystemUID')),",
+				"          Value8 = toString(byName('Value8')),",
+				"          projectId = toString(byName('projectId')),",
+				"          Value9 = toString(byName('Value9')),",
+				"          Project = toString(byName('Project')),",
+				"          Value1 = toString(byName('Value1')),",
+				"          TableName = toString(byName('TableName')),",
+				"          Value4 = toString(byName('Value4')),",
+				"          Name = toString(byName('Name')),",
+				"          Description = toString(byName('Description')),",
+				"          TableDescription = toString(byName('TableDescription')),",
+				"          Value5 = toString(byName('Value5')),",
+				"          Value10 = toString(byName('Value10')),",
+				"          Value2 = toString(byName('Value2')),",
+				"          Value3 = toString(byName('Value3')),",
+				"          Value6 = toString(byName('Value6'))) ~> MapDrifted1"
 			]
 		}
 	}
