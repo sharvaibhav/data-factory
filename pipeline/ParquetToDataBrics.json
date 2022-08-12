@@ -95,6 +95,18 @@
 						"AreaFile": {
 							"value": "@pipeline().parameters.AreaParquetFilePath",
 							"type": "Expression"
+						},
+						"StorageAccountName": {
+							"value": "@pipeline().parameters.StorageAccountName",
+							"type": "Expression"
+						},
+						"SystemFile": {
+							"value": "@pipeline().parameters.SystemParquet",
+							"type": "Expression"
+						},
+						"DisciplineFile": {
+							"value": "@pipeline().parameters.disciplineFileParquet",
+							"type": "Expression"
 						}
 					}
 				},
@@ -190,13 +202,20 @@
 				"defaultValue": "comos_standardtable.parquet"
 			},
 			"disciplineFileParquet": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "comos_discipline.parquet"
 			},
 			"ProcPackageParquet": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "comos_procurementpackage.parquet"
 			},
 			"SystemParquet": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "comos_system.parquet"
+			},
+			"StorageAccountName": {
+				"type": "String",
+				"defaultValue": "vaibhavadfgen2"
 			}
 		},
 		"annotations": []
