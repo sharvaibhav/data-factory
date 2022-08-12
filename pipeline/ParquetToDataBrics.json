@@ -107,6 +107,10 @@
 						"DisciplineFile": {
 							"value": "@pipeline().parameters.disciplineFileParquet",
 							"type": "Expression"
+						},
+						"StandardTableFile": {
+							"value": "@pipeline().parameters.standardTableParquet",
+							"type": "Expression"
 						}
 					}
 				},
