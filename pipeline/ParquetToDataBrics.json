@@ -43,7 +43,7 @@
 				}
 			},
 			{
-				"name": "Notebook1",
+				"name": "JoinEquipmentArea",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -66,7 +66,24 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "Users/vaibhav.sharma@aize.io/test",
+					"baseParameters": {
+						"EquipmentFile": {
+							"value": "@activity('EquipmentParquet').output",
+							"type": "Expression"
+						},
+						"AreaFile": {
+							"value": "@activity('AreaParquet').output",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DataBrics",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
