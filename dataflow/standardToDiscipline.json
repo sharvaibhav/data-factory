@@ -18,7 +18,7 @@
 						"referenceName": "ParquetDataSet",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "DisciplineParquet"
 				}
 			],
 			"transformations": [
@@ -62,7 +62,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> DisciplineParquet"
 			]
 		}
 	}
