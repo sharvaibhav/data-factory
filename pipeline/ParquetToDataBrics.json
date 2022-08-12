@@ -84,6 +84,46 @@
 					"referenceName": "DataBrics",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "ProcurementPackageparquet",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ParquetDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileNameParquet": {
+								"value": "@pipeline().parameters.AreaParquetFilePath",
+								"type": "Expression"
+							}
+						}
+					},
+					"timeout": "7.00:00:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "SystemParquet",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ParquetDataSet",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileNameParquet": {
+								"value": "@pipeline().parameters.AreaParquetFilePath",
+								"type": "Expression"
+							}
+						}
+					},
+					"timeout": "7.00:00:00",
+					"sleep": 10
+				}
 			}
 		],
 		"parameters": {
@@ -94,6 +134,13 @@
 			"AreaParquetFilePath": {
 				"type": "string",
 				"defaultValue": "comos_area.parquet"
+			},
+			"standardTableParquet": {
+				"type": "String",
+				"defaultValue": "comos_standardtable.parquet"
+			},
+			"disciplineFileParquet": {
+				"type": "String"
 			}
 		},
 		"annotations": []
