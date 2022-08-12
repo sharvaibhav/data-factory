@@ -70,8 +70,14 @@
 				"typeProperties": {
 					"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
 					"baseParameters": {
-						"EquipmentFile": "comos_tag.parquet",
-						"AreaFile": "comos_area.parquet"
+						"EquipmentFile": {
+							"value": "@activity('EquipmentParquet').output",
+							"type": "Expression"
+						},
+						"AreaFile": {
+							"value": "@activity('AreaParquet').output",
+							"type": "Expression"
+						}
 					}
 				},
 				"linkedServiceName": {
