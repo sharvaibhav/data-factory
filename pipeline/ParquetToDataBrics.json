@@ -71,7 +71,7 @@
 					"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
 					"baseParameters": {
 						"EquipmentFile": {
-							"value": "@activity('EquipmentParquet').output",
+							"value": "@string(activity('EquipmentParquet').output)",
 							"type": "Expression"
 						},
 						"AreaFile": {
