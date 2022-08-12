@@ -38,6 +38,10 @@
 		"DataBrics_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "0811-223959-y590ajt6"
+		},
+		"EquipmentDeltaTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/c63acff1-61c0-421d-99ca-ccb211229afe/resourceGroups/Aize-Dev-Vaibhav-RG/providers/Microsoft.Storage/storageAccounts/vaibhavadfgen2"
 		}
 	},
 	"variables": {
@@ -141,6 +145,26 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('loggingservice_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EquipmentDeltaTrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/parquetdeltas/blobs/equipment/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('EquipmentDeltaTrigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
 				}
 			},
 			"dependsOn": []
@@ -2566,242 +2590,6 @@
 				"[concat(variables('factoryId'), '/datasets/SourceBlobDataSet')]",
 				"[concat(variables('factoryId'), '/datasets/SinkBlobDataSet')]",
 				"[concat(variables('factoryId'), '/pipelines/TableToSourceMYSqlTableMovementPipeline')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "EquipmentParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.EquipmentParquetFilePath",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "AreaParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.AreaParquetFilePath",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "JoinEquipmentArea",
-						"type": "DatabricksNotebook",
-						"dependsOn": [
-							{
-								"activity": "EquipmentParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "AreaParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "standardToDiscipline",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "SystemParquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "ProcurementPackageparquet",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
-							"baseParameters": {
-								"EquipmentFile": {
-									"value": "@pipeline().parameters.EquipmentParquetFilePath",
-									"type": "Expression"
-								},
-								"AreaFile": {
-									"value": "@pipeline().parameters.AreaParquetFilePath",
-									"type": "Expression"
-								},
-								"StorageAccountName": {
-									"value": "@pipeline().parameters.StorageAccountName",
-									"type": "Expression"
-								},
-								"SystemFile": {
-									"value": "@pipeline().parameters.SystemParquet",
-									"type": "Expression"
-								},
-								"DisciplineFile": {
-									"value": "@pipeline().parameters.disciplineFileParquet",
-									"type": "Expression"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "DataBrics",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "ProcurementPackageparquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.ProcPackageParquet",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "SystemParquet",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ParquetDataSet",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileNameParquet": {
-										"value": "@pipeline().parameters.SystemParquet",
-										"type": "Expression"
-									}
-								}
-							},
-							"timeout": "7.00:00:00",
-							"sleep": 10
-						}
-					},
-					{
-						"name": "standardToDiscipline",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "standardToDiscipline",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"standardTable": {
-										"fileNameParquet": "comos_standardtable.parquet"
-									},
-									"DisciplineParquet": {
-										"fileNameParquet": "comos_discipline.parquet"
-									}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"EquipmentParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_tag.parquet"
-					},
-					"AreaParquetFilePath": {
-						"type": "string",
-						"defaultValue": "comos_area.parquet"
-					},
-					"standardTableParquet": {
-						"type": "String",
-						"defaultValue": "comos_standardtable.parquet"
-					},
-					"disciplineFileParquet": {
-						"type": "String",
-						"defaultValue": "comos_discipline.parquet"
-					},
-					"ProcPackageParquet": {
-						"type": "String",
-						"defaultValue": "comos_procurementpackage.parquet"
-					},
-					"SystemParquet": {
-						"type": "String",
-						"defaultValue": "comos_system.parquet"
-					},
-					"StorageAccountName": {
-						"type": "String",
-						"defaultValue": "vaibhavadfgen2"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParquetDataSet')]",
-				"[concat(variables('factoryId'), '/linkedServices/DataBrics')]",
-				"[concat(variables('factoryId'), '/dataflows/standardToDiscipline')]"
 			]
 		}
 	]

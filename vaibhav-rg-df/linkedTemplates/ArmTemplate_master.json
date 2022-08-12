@@ -43,6 +43,10 @@
 			"type": "string",
 			"defaultValue": "NA"
 		},
+		"EquipmentDeltaTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/c63acff1-61c0-421d-99ca-ccb211229afe/resourceGroups/Aize-Dev-Vaibhav-RG/providers/Microsoft.Storage/storageAccounts/vaibhavadfgen2"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -93,6 +97,9 @@
 					},
 					"DataBrics_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('DataBrics_properties_typeProperties_existingClusterId')]"
+					},
+					"EquipmentDeltaTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('EquipmentDeltaTrigger_properties_typeProperties_scope')]"
 					}
 				}
 			},

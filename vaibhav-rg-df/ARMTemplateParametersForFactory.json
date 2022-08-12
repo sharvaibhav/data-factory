@@ -31,6 +31,9 @@
 		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"value": "NA"
+		},
+		"EquipmentDeltaTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/c63acff1-61c0-421d-99ca-ccb211229afe/resourceGroups/Aize-Dev-Vaibhav-RG/providers/Microsoft.Storage/storageAccounts/vaibhavadfgen2"
 		}
 	}
 }

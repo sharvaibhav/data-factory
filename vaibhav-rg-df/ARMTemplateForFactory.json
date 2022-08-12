@@ -42,6 +42,10 @@
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"type": "string",
 			"defaultValue": "NA"
+		},
+		"EquipmentDeltaTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/c63acff1-61c0-421d-99ca-ccb211229afe/resourceGroups/Aize-Dev-Vaibhav-RG/providers/Microsoft.Storage/storageAccounts/vaibhavadfgen2"
 		}
 	},
 	"variables": {
@@ -1179,6 +1183,37 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/EquipmentDeltas')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ParquetToDataBrics",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/ParquetToDataBrics')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ParquetToDataBrics')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1288,6 +1323,10 @@
 								},
 								"DisciplineFile": {
 									"value": "@pipeline().parameters.disciplineFileParquet",
+									"type": "Expression"
+								},
+								"StandardTableFile": {
+									"value": "@pipeline().parameters.standardTableParquet",
 									"type": "Expression"
 								}
 							}
@@ -2041,6 +2080,26 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/BlobDataMovementPipeline')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EquipmentDeltaTrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/parquetdeltas/blobs/equipment/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('EquipmentDeltaTrigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PEquipmentArea')]",
