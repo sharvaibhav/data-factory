@@ -20,11 +20,17 @@
 		"AzureDataLakeStorageParquet_accountKey": {
 			"value": ""
 		},
+		"DataBrics_accessToken": {
+			"value": ""
+		},
 		"BlobMovementPipelineTrigger_properties_BlobDataMovementPipeline_parameters_BlobDataMovementPipelineSinkFileName": {
 			"value": "NA"
 		},
 		"AzureDataLakeStorageParquet_properties_typeProperties_url": {
 			"value": "https://vaibhavadfgen2.dfs.core.windows.net/"
+		},
+		"DataBrics_properties_typeProperties_existingClusterId": {
+			"value": "0811-223959-y590ajt6"
 		}
 	}
 }
