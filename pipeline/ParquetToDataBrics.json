@@ -57,6 +57,24 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "standardToDiscipline",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "SystemParquet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ProcurementPackageparquet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -96,7 +114,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"fileNameParquet": {
-								"value": "@pipeline().parameters.AreaParquetFilePath",
+								"value": "@pipeline().parameters.ProcPackageParquet",
 								"type": "Expression"
 							}
 						}
@@ -116,13 +134,45 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"fileNameParquet": {
-								"value": "@pipeline().parameters.AreaParquetFilePath",
+								"value": "@pipeline().parameters.SystemParquet",
 								"type": "Expression"
 							}
 						}
 					},
 					"timeout": "7.00:00:00",
 					"sleep": 10
+				}
+			},
+			{
+				"name": "standardToDiscipline",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "standardToDiscipline",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"standardTable": {
+								"fileNameParquet": "comos_standardtable.parquet"
+							},
+							"DisciplineParquet": {
+								"fileNameParquet": "comos_discipline.parquet"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
@@ -140,6 +190,12 @@
 				"defaultValue": "comos_standardtable.parquet"
 			},
 			"disciplineFileParquet": {
+				"type": "String"
+			},
+			"ProcPackageParquet": {
+				"type": "String"
+			},
+			"SystemParquet": {
 				"type": "String"
 			}
 		},
