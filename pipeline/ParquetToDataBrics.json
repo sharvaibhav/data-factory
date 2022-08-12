@@ -68,7 +68,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "Users/vaibhav.sharma@aize.io/test",
+					"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
 					"baseParameters": {
 						"EquipmentFile": "comos_tag.parquet",
 						"AreaFile": "comos_area.parquet"
