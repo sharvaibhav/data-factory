@@ -63,7 +63,8 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DisciplineParquet"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> DisciplineParquet"
 			]
 		}
 	}
