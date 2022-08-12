@@ -71,11 +71,11 @@
 					"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
 					"baseParameters": {
 						"EquipmentFile": {
-							"value": "@pipeline().parameters.AreaParquetFilePath",
+							"value": "@pipeline().parameters.EquipmentParquetFilePath",
 							"type": "Expression"
 						},
 						"AreaFile": {
-							"value": "@pipeline().parameters.EquipmentParquetFilePath",
+							"value": "@pipeline().parameters.AreaParquetFilePath",
 							"type": "Expression"
 						}
 					}
