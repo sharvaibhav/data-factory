@@ -86,7 +86,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/vaibhav.sharma@aize.io/test",
+					"notebookPath": "/Users/vaibhav.sharma@aize.io/basics",
 					"baseParameters": {
 						"EquipmentFile": {
 							"value": "@pipeline().parameters.EquipmentParquetFilePath",
