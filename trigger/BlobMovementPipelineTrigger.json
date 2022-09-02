@@ -3,18 +3,7 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "BlobDataMovementPipeline",
-					"type": "PipelineReference"
-				},
-				"parameters": {
-					"BlobDataMovementPipelineSourceName": "johancastberg-area-data.json",
-					"BlobDataMovementPipelineSinkFileName": "NA"
-				}
-			}
-		],
+		"pipelines": [],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
